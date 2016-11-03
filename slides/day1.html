@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>ReactJS Bootcamp</title>
+      <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+      <meta name="author" content="Abhinav Sharma">
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+      <link rel="stylesheet" href="./lib/css/reveal.css">
+      <link rel="stylesheet" href="./lib/css/theme/sky.css" id="theme">
+      <!-- Code syntax highlighting -->
+      <link rel="stylesheet" href="./lib/lib/css/zenburn.css">
+      <!-- Printing and PDF exports -->
+      <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? './lib/css/print/pdf.css' : './lib/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      </script>
+      <!--[if lt IE 9]>
+      <script src="./lib/lib/js/html5shiv.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+      <div class="reveal">
+          <!-- Any section element inside of this container is displayed as a slide -->
+          <div class="slides">
+              <section>
+                  <h4>Welcome to Day 1 of ReactJS Bootcamp</h4>
+              </section>
+              <section data-transition="fade">
+                  <h2>Agenda</h2>
+                  <ul>
+                      <li>Grunt and Gulp</li>
+                      <li>Webpack</li>
+                      <li>Babel</li>
+                      <li>Eslint</li>
+                      <li>Some ES2015 Features</li>
+                  </ul>
+              </section>
+              <section>
+                <section>
+                  <img src="https://d262ilb51hltx0.cloudfront.net/max/949/1*Wh_DnDH2zLPQSovOSMIy-w.jpeg" />
+                </section>
+                <section>
+                  <h2>Grunt</h2>
+                  <li>Focus on configuration</li>
+                  <li>Does common tasks very well and very easily configured when going down a happy path</li>
+                  <li>Picks up and drops files from src and dest options so each task opens file readers/writers</li>
+                </section>
+                <section>
+                  <h3>GruntFile.js</h3>
+                  <pre><code>grunt.initConfig({
+  clean: {
+    src: ['build/app.js', 'build/vendor.js']
+  },
+
+  copy: {
+    files: [{
+      src: 'build/app.js',
+      dest: 'build/dist/app.js'
+    }]
+  }
+  // ... other task configurations ...
+});
+
+//Notice how plugins are registered before the build
+grunt.registerTask('build', ['clean', 'copy']);
+                    </code></pre>
+                  </section>
+                  <section>
+                    <h2>Gulp</h2>
+                    <li>Focus on code</li>
+                    <li>Leverages streams for piping inbetween tasks</li>
+                    <li>Doesn't enforce much of anything. Just use code to wire up tasks and pipe information</li>
+                  </section>
+                  <section>
+                    <pre><code>var gulp = require('gulp');
+var sass = require('gulp-sass');
+var minifyCss = require('gulp-minify-css');
+
+gulp.task('sass', function(done) {
+  gulp.src('./scss/ionic.app.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('./www/css/'))
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
+    .pipe(gulp.dest('./www/css/'))
+    .on('end', done);
+});
+                    </code></pre>
+                  </section>
+              </section>
+                <section>
+                    <section>
+                        <h2>Script Loading</h2>
+<pre><code>var component = require('../component/component');</code></pre>
+                        <ul>
+                            <li>Allows for modular applications</li>
+                            <li>Allow us to pull in dependencies when we need them</li>
+                            <li>Can bundle scripts on a per page basis</li>
+                            <li>AMD Script loading with require was originally browser implementation of CommonJS Transport</li>
+                            <li>CommonJS and ES6 are the popular formats over AMD</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Browserify</h2>
+                        <span>Batteries not included solution</span>
+                        <ul>
+                            <li>Built to ship Node modules to browsers</li>
+                            <li>Big plugin environment to add things like watch, factor-bundles, deAMDify etc</li>
+                            <li>Manages JS only</li>
+                            <li>Uses transforms to modify code</li>
+                            <li>provides pre and post bundle callbacks</li>
+                            <li>Minimal config</li>
+                        </ul>
+                    </section>
+                    <section>
+                      <h3>tasks/browserify.js</h3>
+                      <pre><code>module.exports = function(grunt, options) {
+  return {
+    dist: {
+      src: defaults.src,
+      dest: defaults.dest,
+      options: {
+        watch: false,
+        browserifyOptions: {
+          debug: false, //no sourcemaps
+          transform: ['reactify', 'uglifyify']
+        }
+      }
+    }
+  };
+};
+                      </code></pre>
+                    </section>
+                    <section>
+                        <h2>Webpack</h2>
+                        <span>Batteries included solution</span>
+                        <ul>
+                            <li>Our solution for this bootcamp</li>
+                            <li>Built to be a browser solution with nodejs support</li>
+                            <li>Bundles all your assets and has loaders to make that easier - great for modularity</li>
+                            <li>Supports all module formats out of the box</li>
+                            <li>Complex setup with loaders and etc </li>
+                            <li>Nice hotloading functionality with its built in dev server</li>
+                        </ul>
+                    </section>
+                    <section>
+                      <h3>webpack.config.js</h3>
+                      <pre><code>module.exports = {
+  context: path.join(__dirname, '../public'),
+  debug: DEBUG,
+  watch: DEBUG,
+  devtool: '#inline-source-map',
+  target: 'web',
+  entry: './scripts/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: '/dist'
+  },
+  module: { //Notice the loaders for sass and jsx files
+    loaders: [
+      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel-loader'] },
+      { test: /\.scss$/, loaders: ['style', 'css', 'sass']}
+    ]
+  }
+}
+                      </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <img height="150px" width="300px" src="https://raw.githubusercontent.com/babel/logo/master/babel.png" />
+                    <ul>
+                        <li>Formerly 6to5 but now handles more than ES2015</li>
+                        <li>Transpiles ESNext Code</li>
+                        <li>Can transform jsx & hot loading transformations</li>
+                        <li>Very up to date and community driven</li>
+                        <li>Used as a pre-build step when writing ESNext in the browser environments</li>
+                    </ul>
+                </section>
+                <section>
+                  <section>
+                    <h2>Eslint <br /><img style="border:none!important;" height="100px" width="100px" src="http://eslint.org/img/logo.svg" /></h2>
+                    <ul>
+                        <li>Extendable code linting and style checking</li>
+                        <li>Every facet is pluggable</li>
+                        <li>Built on espree parser</li>
+                        <li>Lints using AST to evaluate patterns unlike some other linters</li>
+                        <li>Many great community plugins for frameworks like react</li>
+                    </ul>
+                  </section>
+                  <section>
+                    <h3>.eslintrc</h3>
+                    <pre><code>{
+  "rules": {
+      "eqeqeq": 0,
+      "curly": 2,
+      "quotes": [2, "double"]
+  }
+}
+                    </code></pre>
+                  </section>
+                </section>
+                <section>
+                    <section>
+                      <h2>ES2015</h2>
+                      <img src="http://m.memegen.com/bvnpsq.jpg" />
+                    </section>
+                    <section>
+                      <blockquote>
+                        Innovation debt is the cost that companies incur when they don't invest in their developers.
+                        <br />
+                        - Peter Bell
+                      </blockquote>
+                    </section>
+                    <section>
+                        <h2>Arrows =></h2>
+                        <ul>
+                            <li>Inspired by CoffeeScript</li>
+                            <li>Bind to outer this (have no context)</li>
+                            <li>Not newable</li>
+                            <li>No arguments psuedo array</li>
+                            <li>Always Anon</li>
+                        </ul>
+                    </section>
+                    <section>
+                    <h1>Code</h1>
+<pre><code>
+//Arrows
+var evens = numbers.map(num => num % 2 === 0);
+nums.map((x) => x * 2);
+//or as a statement body
+var specialNums = numbers.map(num => {
+  return doSomething(num);
+});
+// Lexical this
+var person = {
+  _name: "Westin",
+  _friends: ["Not Justin", "Doug", "Brendan", "Igor"],
+  printFriends() {
+    this._friends.forEach(f =>
+      console.log(`${this._name} knows ${f}`));
+  }
+}
+</code></pre>
+                </section>
+            <section>
+                <h2>Let</h2>
+                <div>Allows for block scoping</div>
+<pre><code>
+function() {
+  if(x) {
+    var foo = 3;
+  }
+  var baz = 1;
+  //foo and baz in same scope due to hoisting
+}
+</code></pre>
+<pre><code>
+function() {
+  if(x) {
+    let foo = 3; //only inside the conditional
+  }
+  var baz = 1;
+  //foo and baz NOT in same scope as foo is no longer hoisted
+}
+</code></pre>
+            </section>
+              <section>
+                    <h2>Destructuring Object</h2>
+<pre><code>var people = [
+  {
+    name: 'Westin',
+    age: 25
+  }
+];
+
+people.forEach(({name, age}) => {
+  console.log(name + ":" + age)
+});
+</code></pre>
+<pre><code>let { first: f, last: l } = {first: 'westin', last: 'w'};
+let [x, y] = ['a', 'b'];
+let {length : len} = 'abc';
+</code></pre>
+                </section>
+                <section>
+                    <h2>Destructuring Array</h2>
+<pre><code>var [month, date, year] = [3, 14, 1977];
+
+let x = 3;
+let y = 4;
+[x, y] = [y, x];
+
+//ignore an index
+var [a, ,b] = [1,2,3];
+var doWork = function() {
+    return [1, 3, 2];
+};
+
+let [x, y, z] = doWork();
+</code></pre>
+                </section>
+                <section>
+                    <h2>Default, Rest, Spread</h2>
+                    <h3>Default Params</h3>
+<pre><code>let f =(x, y=12, z=y) => {
+  return x + y;
+}
+
+f(3) == 15;
+
+let [x=3, y] = []; // x = 3; y = undefined
+
+</code></pre>
+                </section>
+                <section>
+                    <h2>Rest</h2>
+                    <ul>
+                        <li>arguments object no real array</li>
+                        <li>rest parameters are arrays meaning can use map,filter,reduce,etc</li>
+                        <li>rest parameters are the params that haven't been named</li>
+                    </ul>
+<pre><code>function multiply(multiplier, ...theArgs) {
+  return theArgs.map(function (element) {
+    return multiplier * element;
+  });
+}
+</code></pre>
+                </section>
+                <section>
+                    <h2>Spread</h2>
+                    <div>Expand array params like Func.apply</div>
+<pre><code>function sum(x,y,z) {
+  return x + y + z;
+}
+
+total(1, 2, 3);
+
+//before
+total.apply(null, [1,2,3]);
+//now
+total(...[1,2,3]);
+
+let [x,...y] = 'abc'; // x='a'; y=['b', 'c'];
+
+</code></pre>
+                </section>
+                <section>
+                    <h2>Classes</h2>
+                    <ul>
+                        <li>just some syntactic sugar for prototype</li>
+                        <li>we will have supers and constructors</li>
+                    </ul>
+<pre><code style="word-wrap: break-word;">class TodoModel {
+    constructor(storage) {
+        this.storage = storage;
+    }
+
+    create(title='') {
+        return this.storage.save({title, completed: false});
+    }
+
+    ['h'+'ello' + 'world']() { //dynamic class properties
+        return 'Hello World';
+    }
+};
+</code></pre>
+                </section>
+                <section>
+<pre><code style="word-wrap: break-word;">class EnhancedTodoModel extends TodoModel {
+    constructor(storage) {
+        this.storage = storage;
+    }
+
+    create(title) {
+        console.log('Creating a new todo with title' + title)
+        super.create(title);
+    }
+}
+</code></pre>
+                </section>
+                <section>
+                    <h2>Modules</h2>
+<pre><code>import name from "module-name";
+import { member } from "module-name";
+import {member as alias } from "module-name";
+import { member1 , member2 } from "module-name";
+import "module-name" as name from 'simpler-module';
+import "module" from 'module';
+
+export function() { console.log('other module method') };
+export default function() { console.log('default module method'); }
+</code></pre>
+                </section>
+                <section>
+                    <h2>Can have both named and default exports</h2>
+                    <span>Default is really just another named export</span>
+                    <span>Default are favored however</span>
+<pre><code>
+export default function (obj) {...};
+
+export function each(obj, iterator, context) {...};
+
+export { each as forEach };
+
+import _, { each } from 'lodash';
+</code></pre>
+                </section>
+            </section>
+            <section>
+                <h4>React Views</h4>
+            </section>
+            <section data-transition="fade">
+                <h2>Agenda</h2>
+                <ul>
+                    <li>React as a view layer</li>
+                    <li>JSX</li>
+                    <li>Mounting component to DOM</li>
+                    <li>Simple Components</li>
+                    <li>Starting the application</li>
+                </ul>
+            </section>
+            <section>
+                <section>
+                    <h2>Why the <strong>^@#$%</strong> is there another js framework</h2>
+                </section>
+                <section>
+                    <h2>React</h2>
+                    <ul class="ul-demo-l">
+                        <li>Small Modular Components</li>
+                        <li>Minimal API Surface Area</li>
+                        <li>Performant with JSDom</li>
+                    </ul>
+                    <ul class="ul-demo-r">
+                        <li>Simply the view layer</li>
+                        <li>JSX can be strange at first</li>
+                        <li>Since it is just a view layer you must enforce good patterns</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Angular</h2>
+                    <ul class="ul-demo-l">
+                        <li>Directives are crazy powerful and declarative</li>
+                        <li>Filters are awesome</li>
+                        <li>Can be used modularly with some good insight. see Angular UI</li>
+                        <li>Great for prototyping</li>
+                    </ul>
+                    <ul class="ul-demo-r">
+                        <li>Two binding with Dirty Checks and Digest Cycle</li>
+                        <li>Technically inperformant but not noticeable 99% of the time</li>
+                        <li>Code under the head is insanly complex argueable over engineered.</li>
+                        <li>Actions automagically trigger digest cycles</li>
+                        <li>Doesn't feel like writing JS as huge API surface area</li>
+                        <li>Docs still suck</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Ember</h2>
+                    <ul class="ul-demo-l">
+                        <li>Efficient data binding with accessors</li>
+                        <li>Less gotchas than Angular</li>
+                        <li>Computed Properties</li>
+                        <li>Amazing docs</li>
+                        <li>Great for prototyping</li>
+                    </ul>
+                    <ul class="ul-demo-r">
+                        <li>Very heavy and opinionated</li>
+                        <li>Syntax isn't as clean with accessors</li>
+                        <li>Highest barrier to entry</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Backbone</h2>
+                    <ul class="ul-demo-l">
+                        <li>Binding with accessors but requires setup</li>
+                        <li>0 assumptions are made</li>
+                        <li>Extendable and versatile</li>
+                        <li>Marionette is &hearts;</li>
+                    </ul>
+                    <ul class="ul-demo-r">
+                        <li>Less for free but it stays out of your way after</li>
+                        <li>Backbone is actually pretty great for what it does so ... </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Use what makes sense and enables you to be productive!</h3>
+                    <img src="http://i.imgur.com/z9zn3F7.jpg" />
+                </section>
+                <section>
+                  <div>Great Comparison Article here</div>
+                  <a href="http://derickbailey.com/2015/08/26/building-a-component-based-web-ui-with-modern-javascript-frameworks/">
+                    http://derickbailey.com/2015/08/26/building-a-component-based-web-ui-with-modern-javascript-frameworks
+                  </a>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>React</h2>
+                    <h4>according to Facebook</h4>
+                    <ul>
+                        <li>It's simple</li>
+                        <li>It's declarative</li>
+                        <li>It's composable</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Components are your building blocks</h2>
+                    <ul>
+                        <li>Self contained</li>
+                        <li>Modular</li>
+                        <li>Dynamic</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>How can we break this down into components?</h2>
+                    <img src="https://cdn.rawgit.com/westeezy/ReactJS-Bootcamp/master/walkthroughs/slides/day1/img/reddit.png"/>
+                </section>
+            </section>
+            <section>
+                <h2>JSX</h2>
+                <span>Render markup in your code</span>
+                <ul>
+                    <li>This makes sense with small modular components</li>
+                    <li>Babel can transpile JSX into plain old javascript</li>
+                    <li>You can very easily write your javascript logic alongside your presentation layer</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Mounting a component</h2>
+<pre><code>
+    import React from 'react';
+import app from './components/App/App';
+
+React.render(<App></App>, document.getElementById('app'));
+</code></pre>
+                </section>
+                <section>
+                    <h2>Simple Component</h2>
+        <pre><code>import React from 'react';
+import './_Hai.scss';
+
+export default class Hai extends React.Component {
+  render() {
+    let name = 'React';
+    return (
+      <div className="my-super-awesome-react-app">
+        <span>Hello Margret, It's me,</span>
+        <span>{name}</span>
+      </div>
+    );
+  }
+}
+</code></pre>
+              <p><a href="./day2.html">Next day</a></p>
+            </section>
+        </div>
+    </div>
+    <script src="./lib/lib/js/head.min.js"></script>
+    <script src="./lib/js/reveal.js"></script>
+    <script>
+        // Full list of configuration options available at:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Optional reveal.js plugins
+        dependencies: [
+        { src: './lib/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: './lib/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: './lib/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: './lib/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: './lib/plugin/zoom-js/zoom.js', async: true },
+        { src: './lib/plugin/notes/notes.js', async: true }
+        ]
+        });
+      </script>
+</body>
+</html>
