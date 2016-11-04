@@ -29,27 +29,30 @@
           <!-- Any section element inside of this container is displayed as a slide -->
           <div class="slides">
               <section>
-                  <h4>Welcome to Day 1 of ReactJS Bootcamp</h4>
+                <h4>Welcome to Day 1 of ReactJS Bootcamp</h4>
               </section>
               <section data-transition="fade">
-                  <h2>Agenda</h2>
-                  <ul>
-                      <li>Grunt and Gulp</li>
-                      <li>Webpack</li>
-                      <li>Babel</li>
-                      <li>Eslint</li>
-                      <li>Some ES2015 Features</li>
-                  </ul>
+                <h2>Agenda</h2>
+                <ul>
+                    <li>Grunt and Gulp</li>
+                    <li>Webpack</li>
+                    <li>Babel</li>
+                    <li>Eslint</li>
+                    <li>Some ES2015 Features</li>
+                </ul>
               </section>
+
               <section>
                 <section>
-                  <img src="https://d262ilb51hltx0.cloudfront.net/max/949/1*Wh_DnDH2zLPQSovOSMIy-w.jpeg" />
+                  <img src="./images/tools.png" />
                 </section>
                 <section>
                   <h2>Grunt</h2>
-                  <li>Focus on configuration</li>
-                  <li>Does common tasks very well and very easily configured when going down a happy path</li>
-                  <li>Picks up and drops files from src and dest options so each task opens file readers/writers</li>
+                  <ul>
+                    <li>Focus on configuration</li>
+                    <li>Does common tasks very well and very easily configured when going down a happy path</li>
+                    <li>Picks up and drops files from src and dest options so each task opens file readers/writers</li>
+                  </ul>
                 </section>
                 <section>
                   <h3>GruntFile.js</h3>
@@ -73,9 +76,11 @@ grunt.registerTask('build', ['clean', 'copy']);
                   </section>
                   <section>
                     <h2>Gulp</h2>
-                    <li>Focus on code</li>
-                    <li>Leverages streams for piping inbetween tasks</li>
-                    <li>Doesn't enforce much of anything. Just use code to wire up tasks and pipe information</li>
+                    <ul>
+                      <li>Focus on code</li>
+                      <li>Leverages streams for piping inbetween tasks</li>
+                      <li>Doesn't enforce much of anything. Just use code to wire up tasks and pipe information</li>
+                    </ul>
                   </section>
                   <section>
                     <pre><code>var gulp = require('gulp');
@@ -94,34 +99,32 @@ gulp.task('sass', function(done) {
 });
                     </code></pre>
                   </section>
-              </section>
-                <section>
-                    <section>
-                        <h2>Script Loading</h2>
+                  <section>
+                    <h2>Script Loading</h2>
 <pre><code>var component = require('../component/component');</code></pre>
-                        <ul>
-                            <li>Allows for modular applications</li>
-                            <li>Allow us to pull in dependencies when we need them</li>
-                            <li>Can bundle scripts on a per page basis</li>
-                            <li>AMD Script loading with require was originally browser implementation of CommonJS Transport</li>
-                            <li>CommonJS and ES6 are the popular formats over AMD</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Browserify</h2>
-                        <span>Batteries not included solution</span>
-                        <ul>
-                            <li>Built to ship Node modules to browsers</li>
-                            <li>Big plugin environment to add things like watch, factor-bundles, deAMDify etc</li>
-                            <li>Manages JS only</li>
-                            <li>Uses transforms to modify code</li>
-                            <li>provides pre and post bundle callbacks</li>
-                            <li>Minimal config</li>
-                        </ul>
-                    </section>
-                    <section>
-                      <h3>tasks/browserify.js</h3>
-                      <pre><code>module.exports = function(grunt, options) {
+                    <ul>
+                        <li>Allows for modular applications</li>
+                        <li>Allow us to pull in dependencies when we need them</li>
+                        <li>Can bundle scripts on a per page basis</li>
+                        <li>AMD Script loading with require was originally browser implementation of CommonJS Transport</li>
+                        <li>CommonJS and ES6 are the popular formats over AMD</li>
+                    </ul>
+                  </section>
+                  <section>
+                      <h2>Browserify</h2>
+                      <span>Batteries not included solution</span>
+                      <ul>
+                          <li>Built to ship Node modules to browsers</li>
+                          <li>Big plugin environment to add things like watch, factor-bundles, deAMDify etc</li>
+                          <li>Manages JS only</li>
+                          <li>Uses transforms to modify code</li>
+                          <li>provides pre and post bundle callbacks</li>
+                          <li>Minimal config</li>
+                      </ul>
+                  </section>
+                  <section>
+                    <h3>tasks/browserify.js</h3>
+                    <pre><code>module.exports = function(grunt, options) {
   return {
     dist: {
       src: defaults.src,
@@ -136,23 +139,22 @@ gulp.task('sass', function(done) {
     }
   };
 };
-                      </code></pre>
-                    </section>
-                    <section>
-                        <h2>Webpack</h2>
-                        <span>Batteries included solution</span>
-                        <ul>
-                            <li>Our solution for this bootcamp</li>
-                            <li>Built to be a browser solution with nodejs support</li>
-                            <li>Bundles all your assets and has loaders to make that easier - great for modularity</li>
-                            <li>Supports all module formats out of the box</li>
-                            <li>Complex setup with loaders and etc </li>
-                            <li>Nice hotloading functionality with its built in dev server</li>
-                        </ul>
-                    </section>
-                    <section>
-                      <h3>webpack.config.js</h3>
-                      <pre><code>module.exports = {
+                    </code></pre>
+                  </section>
+                  <section>
+                    <h2>Webpack</h2>
+                    <span>Batteries included solution</span>
+                    <ul>
+                        <li>Built to be a browser solution with nodejs support</li>
+                        <li>Bundles all your assets and has loaders to make that easier - great for modularity</li>
+                        <li>Supports all module formats out of the box</li>
+                        <li>Complex setup with loaders and etc </li>
+                        <li>Nice hotloading functionality with its built in dev server</li>
+                    </ul>
+                  </section>
+                  <section>
+                    <h3>webpack.config.js</h3>
+                    <pre><code>module.exports = {
   context: path.join(__dirname, '../public'),
   debug: DEBUG,
   watch: DEBUG,
@@ -170,9 +172,62 @@ gulp.task('sass', function(done) {
     ]
   }
 }
-                      </pre></code>
+                    </pre></code>
+                  </section>
+                  <section>
+                    <h2>Brunch</h2>
+                    <span>You dont worry about 'Batteries'</span>
+                    <ul>
+                        <li>Our solution for this bootcamp</li>
+                        <li>Small configs</li>
+                        <li>Three simple commands</li>
+                        <li>Productivity and happiness</li>
+                    </ul>
+                  </section>
+                  <section>
+                      <h3>Small configs</h3>
+                      <p>By being opinionated about your build pipeline, Brunch is able to provide a smooth and fast experience, and makes your config files take a drastic cut.</p>
+                    </section>
+                    <section>
+                      <h3>Three simple commands</h3>
+                      <p>It doesn't take much to get around with brunch:</p>
+                      <ul>
+                        <li><code style="font-weight: bold;">brunch new</code> to create a new project</li>
+                        <li><code style="font-weight: bold;">brunch build</code> to build</li>
+                        <li><code style="font-weight: bold;">brunch watch</code> to live compile</li>
+                      </ul>
+                    </section>
+                    <section>
+                      <h3>Productivity and happiness</h3>
+                      <ul>
+                        <li>NPM support</li>
+                        <li>source maps out-of-the-box</li>
+                        <li>fast from-zero builds</li>
+                        <li>incremental builds</li>
+                        <li>and more</li>
+                      </ul>
+                    </section>
+                    <section>
+                      <h3>Typical brunch config</h3>
+                      <pre><code>module.exports = {
+  files: {
+    javascripts: {
+      joinTo: {
+        'vendor.js': /^(?!app)/,
+        'app.js': /^app/
+      }
+    },
+    stylesheets: {joinTo: 'app.css'}
+  },
+
+  plugins: {
+    babel: {presets: ['es2015', 'react']},
+    postcss: {processors: [require('autoprefixer')]}
+  }
+};</code></pre>
                     </section>
                 </section>
+
                 <section>
                     <img height="150px" width="300px" src="https://raw.githubusercontent.com/babel/logo/master/babel.png" />
                     <ul>
