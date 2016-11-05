@@ -45,6 +45,8 @@ Configure routes in a new file `routes.js`
 
 ```js
 
+// app/routes.js
+
 export default {
   "/": {
    '/welcome': {
