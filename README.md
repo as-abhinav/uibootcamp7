@@ -1,95 +1,41 @@
-#Setup Routes 
+# Designing a visual prototype
 
-Tech Import required modules
-```js
-// app/initialize.js
 
-import {routerForBrowser, RouterProvider} from 'redux-little-router'
-import routes from './routes'
+For a quick css work, we will be using `Twitter Bootstrap`. 
+
+Add the Bootstrap CDN to your `index.html` page's `<head>` block.
+
+```
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 ```
 
-
-Configure the router
-```js
-// app/initialize.js
-
-const {
-  routerEnhancer,
-  routerMiddleware
-  } = routerForBrowser({routes});
-```
+Also, put all your `<script>` tags at the end of body tag to speed up page loading.
 
 
-Add router middlewares to the store
-```js
-// app/initialize.js
-
-const store = createStore(
-  reducers, // All reducers
-  {}, // initial state
-  compose(
-    applyMiddleware(thunkMiddleware), // DO NOT CHANGE THE SEQUENCE OF THUNK MIDDLEWARE. It should always be first.
-    routerEnhancer, // Redux little router middleware
-    applyMiddleware(routerMiddleware) // Redux little router middleware
-  )
-)
-```
-
-
-Change your load function as follows
+Restructuring `app.js`
 
 ```js
-// app/initialize.js
-
-const load = () => {
-ReactDOM.render(
-  <Provider store={store}>
-    <RouterProvider store={store}>
-      <App />
-    </RouterProvider>
-  </Provider>
-  , document.querySelector('#app')
-  )
-}
-```
-
-
-Add pages and setup route fragments
------------------------------------
-
-Create a 'pages' directory and add new pages to that file. Your `App` component in the `components` directory is now a root page. Move it to the `pages` directory.
-
-Add the following pages in the `pages` directory.
-
-* welcome.js
-* deck.js
-
-Note that each of these pages should return a React component.
-
-
-Setup route fragments in the root page i.e. `App` component
-
-```js
-
-// pages/app.js
-
 import React from 'react'
 import {RelativeFragment, Fragment} from "redux-little-router"
 
+import Navbar from '../components/navbar'
 import Welcome from '../pages/welcome'
 import Deck from '../pages/deck'
 
 export default class App extends React.Component {
   render() {
     return (
-      <div>
-       <Fragment forRoutes={["/", "/welcome"]}>
-         <Welcome />
-       </Fragment>
-				
-       <Fragment forRoute="/deck">
-         <Deck />
-       </Fragment>
+      <div className="viewport">
+        <Navbar />
+
+        <Fragment forRoutes={["/", "/welcome"]}>
+          <Welcome />
+        </Fragment>
+
+        <Fragment forRoute="/deck">
+          <Deck />
+        </Fragment>
+
       </div>
     )
   }
@@ -97,4 +43,16 @@ export default class App extends React.Component {
 ```
 
 
-Hit the browser with `/welcome` and `/deck` routes to verify if the components are getting rendered in their respective routes.  
+
+Designing new components:
+
+Refer to `app/components` directory.
+
+**`handle-form`**: Displays form to add handle to the deck
+**`navbar`**: Holds application title and a button to add more handles
+**`deck-list`**: Column like boxes which display tweets of a respective handle
+**`tweet-item`**: Displays tweet information
+
+
+Styling for the above components is added in `app/styles/style.css`
+
