@@ -1,6 +1,12 @@
 #Setup Routes 
 
-Tech Import required modules
+Install Redux little router
+
+```sh
+npm install --save redux-little-router
+```
+
+Import required modules
 ```js
 // app/initialize.js
 
