@@ -1,23 +1,43 @@
-#UI Bootcamp - 007s  
+#Setup ReduxJS  
 
-#Aim
-Create a Tweet deck clone [like this](https://tweetdeck.twitter.com) while going through basic concepts of ReactJS and Redux.  
+Import required modules
+```js
+//app/initialize.js
 
-# Brunch + Redux + React + Babel/ES6
+import {createStore, compose, applyMiddleware} from 'redux'
+import reducers from './reducers'
+import { Provider } from 'react-redux'
+```
 
-## Installation
 
-Clone this repo
+Time to initialize redux store
+```js
+const store = createStore(
+  reducers, // All of your application reducers
+  {} // initial state of the application
+)
+```
 
-## Getting started
 
-* Install (if you don't have them):
-    * [Node.js](http://nodejs.org): `brew install node` on OS X
-    * [Brunch](http://brunch.io): `npm install -g brunch`
-    * `cd` into this repo and Brunch plugins and app dependencies: `npm install`
-* Run:
-    * `brunch watch --server` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).
-    * `brunch build --production` — builds minified project for production
-* Learn:
-    * `public/` dir is fully auto-generated and served by HTTP server. Write your code in `app/` dir.
-    * Place static files you want to be copied from `app/assets/` to `public/`.
+Create a root reducer file at the base level.
+```js
+//app/reducer.js
+
+export default (state = [], action) => {
+  return state
+}
+```
+
+
+Change your load function as follows
+
+```js
+const load = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+	</Provider>
+    , document.querySelector('#app')
+  )
+}
+```
