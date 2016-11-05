@@ -32,6 +32,7 @@ export default (state = [], action) => {
 Change your load function as follows
 
 ```js
+//app/initialize.js
 const load = () => {
   ReactDOM.render(
     <Provider store={store}>
