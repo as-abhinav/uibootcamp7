@@ -1,140 +1,238 @@
-# Create actions, reducers for fetching tweets
-
-For async actions we will be needing a redux middleware library called as `redux-thunk`. 
-
-Install `redux-thunk` in your app
-
-```sh
-npm install --save redux-thunk
-```
+#Create containers and presentational components
 
 
-Register the middleware when initializing the redux store.
+You need to make your dumb components functional. `React-Redux` provides a way to separate logic from react components and extract it out into containers.
 
-```js
-// app/initialize.js
+These containers just hold two functions in them.
 
-import thunkMiddleware from 'redux-thunk'
-
-const store = createStore(
-  reducers, // All reducers
-  {},
-  compose(
-    applyMiddleware(thunkMiddleware),
-    routerEnhancer, // Redux little router middleware
-    applyMiddleware(routerMiddleware) // Redux little router middleware
-  )
-)
-```
+* **`mapStateToProps`**: Provides all the props needed for a React component
+* **`mapDispatchToProps`**: Provides all actions needed for a React component
 
 
 
-Creating Redux Actions
-----------------------
-
-Actions are just a plain javascript object. What do you want to include in this object is totally upto you.
-
-Create a `app/actions` directory and add a `handles.js` file in it.
+Create a `app/containers` directory and add a `handle-form.js` file in it.
 
 
-Creating action constants is important as these actions will be listened by the `reducers` and your application state will be manipulated accordingly.
-  
-  
- 
-
+Container:
 ```js
 
-// app/actions/handles.js
+app/containers/handle-form.js
 
-export const REQUEST_TWEETS = 'REQUEST_TWEETS'
-export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
+import React from 'react'
+import {connect} from "react-redux"
+import {PUSH} from 'redux-little-router'
 
-```
+import {fetchTweets} from '../actions/handles'
+import HandleForm from '../components/handle-form'
 
+const mapStateToProps = (state) => {
+  return {}
+}
 
-Actions can be called by anyone. So we create action functions to return new action object.
-
-```js
-// app/actions/handles.js
-
-let requestTweets = (handle) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    type  : REQUEST_TWEETS,
-    handle: handle
-  }
-}
+    onHandleSubmit: (handle) => {
+      dispatch(fetchTweets(handle))
 
-let receiveTweets = (data, handle) => {
-  return {
-    type  : RECEIVE_TWEETS,
-    data  : data,
-    handle: handle
-  }
-}
-```
-
-
-Creating Redux Reducers
------------------------
-
-Reducers are responsible for updating your application state. Each reducer handles a specific part of the application state. In this case `handles` key in the application state.
-
-This is the initial application state:
-```js
-{
-    handles: []
-}
-```
-
-
-Let's register our `app/reducers/handles.js` reducer to the specific part of tha application state. i.e. the `handles` key.
-
-```js
-
-// app/reducers.js 
-
-import {combineReducers} from "redux"
-import  handles from './reducers/handles'
-
-export default combineReducers({
-	handles
-})
-
-```
-
-
-Now, modify `app/reducers/handle.js` file to listen to a redux action that we just created and act upon it accordingly.
-
-
-```js
-
-// app/reducers/handle.js
-
-import {REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
-
-export default (state = [], action) => {
-  switch (action.type) {
-    case REQUEST_TWEETS:
-      let newState = state.map((handles) => handles)
-
-      newState.push({
-        name      : action.handle,
-        isFetching: true,
-        data      : []
+      dispatch({
+        type   : PUSH,
+        payload: '/deck'
       })
+    }
+  }
+}
 
-      return newState
+export default connect(mapStateToProps, mapDispatchToProps)(HandleForm)
 
-    case RECEIVE_TWEETS:
-      return state.map((handle) => {
-        if (handle.name === action.handle) {
-          handle.data       = action.data
-          handle.isFetching = false
+
+```
+
+
+Modify the `app/components/handle-form.js` component to read props supplied by the `handle-form` container.
+
+
+Component:
+```js
+
+// app/components/handle-form.js
+
+import React from 'react'
+
+export default class HandleForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onHandleSubmit = this.handleSubmit.bind(this)
+  }
+  handleSubmit(e) {
+    e.preventDefault()
+    this.props.onHandleSubmit(this.refs.handleInput.value)
+    return false
+  }
+  render() {
+    return (
+      <form className="handle-form" onSubmit={this.onHandleSubmit}>
+        <h1 className=" text-muted">Add a handle</h1>
+        <input ref="handleInput" name="twitter-handle" type="text" className="form-control input-lg" placeholder="@JohnMalkovich, #food or #music"></input>
+        <button className="btn btn-lg btn-primary btn-block" type="submit">
+          Go!
+        </button>
+      </form>
+    )
+  }
+}
+
+```
+
+
+Modify `app/pages/welcome.js` file to call container instead of a component.
+
+```js
+
+// app/pages/welcome.js
+
+import HandleForm from '../containers/handle-form'
+
+```
+
+
+Now, hit the browser with `localhost:5555/welcome`, add a tweet handle 'test' in the input and hit go. The page should be redirected to `/deck` route.
+
+
+Rendering tweets. Finally!!
+---------------------------
+
+Add `deck-list.js` file in `app/containers` directory.
+
+
+```js
+
+//app/containers/deck-list.js
+
+import React from 'react'
+import {connect} from "react-redux"
+
+import DeckList from '../components/deck-list'
+
+const mapStateToProps = (state) => {
+  return {
+    handles: state.handles
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList)
+
+```
+
+
+Modify the `app/components/deck-list.js` component to read props supplied by the `deck-list` container.
+
+```js
+
+// app/components/deck-list.js
+
+import React from 'react'
+import TweetItem from "./tweet-item"
+
+export default class DeckList extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  renderList(handle) {
+    return (
+      <div className="deck-list" key={handle.name}>
+        <div className="deck-title">
+          {handle.name}
+        </div>
+        <div className="deck-body">
+          {
+            handle.isFetching
+              ?
+              <p>Loading...</p>
+              :
+              handle.data.map((tweet) => <TweetItem key={tweet.name} tweet={tweet} />)
+          }
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div className="deck-wrap clearfix">
+        {
+          this.props.handles.length
+            ?
+            this.props.handles.map((handle) => this.renderList(handle))
+            :
+            <p>Loading...</p>
         }
-        return handle;
-      })
-    default:
-      return state
+      </div>
+    )
   }
 }
 ```
+
+
+Modify the `app/components/tweet-item.js` component to render tweet data.
+
+```js
+// app/components/tweet-item.js
+
+
+import React from 'react'
+
+export default class TweetItem extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div className="media tweet-item">
+        <div className="media-left">
+          <a href="#">
+            <img alt="64x64" className="media-object" src="https://unsplash.it/128/128?random&blur"></img>
+          </a>
+        </div>
+        <div className="media-body">
+          <p className="media-heading">{this.props.tweet.name}</p>
+
+          <p className="media-content">
+            {this.props.tweet.content}
+          </p>
+        </div>
+      </div>
+    )
+  }
+}
+
+```
+
+
+
+Modify the 'app/pages/deck.js' file to call `deck-list` container instead of a component
+
+```js
+import React from 'react'
+
+import DeckList from '../containers/deck-list'
+
+export default class Deck extends React.Component {
+  render() {
+    return (
+      <div id="deck-page">
+        <DeckList />
+      </div>
+    )
+  }
+}
+```
+
+
+Now, hit `localhost:5555/welcome`. Enter 'test' handle in the input. Hit Go. The page should be redirected to `/decks` route. The 2 dummy tweets should be visible in the test deck.

@@ -1,5 +1,5 @@
 import React from 'react'
-import HandleForm from '../components/handle-form'
+import HandleForm from '../containers/handle-form'
 
 export default class Welcome extends React.Component {
 	render() {

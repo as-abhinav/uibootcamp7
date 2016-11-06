@@ -7,7 +7,7 @@ export default class Deck extends React.Component {
 			<nav className="navbar navbar-inverse navbar-fixed-top">
 				<div className="container">
 					<div className="navbar-header">
-						<a className="navbar-brand" href="#">Tweet Deck Clone</a>
+						<a className="navbar-brand" href="/">Tweet Deck Clone</a>
 					</div>
 					<div className="navbar-right">
 						<Fragment forRoute="/deck">
