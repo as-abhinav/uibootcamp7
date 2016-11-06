@@ -9,6 +9,7 @@ import {Provider} from 'react-redux'
 import {routerForBrowser, RouterProvider} from 'redux-little-router'
 import routes from './routes'
 
+import thunkMiddleware from 'redux-thunk'
 
 const {
 	      routerEnhancer,
@@ -18,8 +19,11 @@ const {
 const store = createStore(
 	reducers, // All reducers
 	{},
-	routerEnhancer, // Redux little router middleware
-	applyMiddleware(routerMiddleware) // Redux little router middleware
+	compose(
+		applyMiddleware(thunkMiddleware),
+		routerEnhancer, // Redux little router middleware
+		applyMiddleware(routerMiddleware) // Redux little router middleware
+	)
 )
 
 

@@ -1,58 +1,140 @@
-# Designing a visual prototype
+# Create actions, reducers for fetching tweets
 
+For async actions we will be needing a redux middleware library called as `redux-thunk`. 
 
-For a quick css work, we will be using `Twitter Bootstrap`. 
+Install `redux-thunk` in your app
 
-Add the Bootstrap CDN to your `index.html` page's `<head>` block.
-
+```sh
+npm install --save redux-thunk
 ```
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-```
-
-Also, put all your `<script>` tags at the end of body tag to speed up page loading.
 
 
-Restructuring `app.js`
+Register the middleware when initializing the redux store.
 
 ```js
-import React from 'react'
-import {RelativeFragment, Fragment} from "redux-little-router"
+// app/initialize.js
 
-import Navbar from '../components/navbar'
-import Welcome from '../pages/welcome'
-import Deck from '../pages/deck'
+import thunkMiddleware from 'redux-thunk'
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <div className="viewport">
-        <Navbar />
+const store = createStore(
+  reducers, // All reducers
+  {},
+  compose(
+    applyMiddleware(thunkMiddleware),
+    routerEnhancer, // Redux little router middleware
+    applyMiddleware(routerMiddleware) // Redux little router middleware
+  )
+)
+```
 
-        <Fragment forRoutes={["/", "/welcome"]}>
-          <Welcome />
-        </Fragment>
 
-        <Fragment forRoute="/deck">
-          <Deck />
-        </Fragment>
 
-      </div>
-    )
+Creating Redux Actions
+----------------------
+
+Actions are just a plain javascript object. What do you want to include in this object is totally upto you,
+
+Create a `app/actions` directory and add a `handles.js` file in it.
+
+
+Creating action constants is important as these actions will be listened by the `reducers` and your application state will be manipulated accordingly.
+  
+  
+ 
+
+```js
+
+// app/actions/handles.js
+
+export const REQUEST_TWEETS = 'REQUEST_TWEETS'
+export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
+
+```
+
+
+Actions can be called by anyone. So we create action functions to return new action object each time.
+
+```js
+// app/actions/handles.js
+
+let requestTweets = (handle) => {
+  return {
+    type  : REQUEST_TWEETS,
+    handle: handle
+  }
+}
+
+let receiveTweets = (data, handle) => {
+  return {
+    type  : RECEIVE_TWEETS,
+    data  : data,
+    handle: handle
   }
 }
 ```
 
 
+Creating Redux Reducers
+-----------------------
 
-Designing new components:
+Reducers are the only one responsible for updating your application state. Each reducer handles a specific part of the application state.
 
-Refer to `app/components` directory.
+In this case handles. This is the initial application state:
+```js
+{
+    handles: []
+}
+```
 
-**`handle-form`**: Displays form to add handle to the deck
-**`navbar`**: Holds application title and a button to add more handles
-**`deck-list`**: Column like boxes which display tweets of a respective handle
-**`tweet-item`**: Displays tweet information
+
+Let's register our `app/reducers/handles.js` reducer to the specific part of tha application state. i.e. the `handles` key.
+
+```js
+
+// app/reducers.js 
+
+import {combineReducers} from "redux"
+import  handles from './reducers/handles'
+
+export default combineReducers({
+	handles
+})
+
+```
 
 
-Styling for the above components is added in `app/styles/style.css`
+Now, modify `app/reducers/handle.js` file to listen to a redux action that we just created and act upon it accordingly.
 
+
+```js
+
+// app/reducers/handle.js
+
+import {REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
+
+export default (state = [], action) => {
+  switch (action.type) {
+    case REQUEST_TWEETS:
+      let newState = state.map((handles) => handles)
+
+      newState.push({
+        name      : action.handle,
+        isFetching: true,
+        data      : []
+      })
+
+      return newState
+
+    case RECEIVE_TWEETS:
+      return state.map((handle) => {
+        if (handle.name === action.handle) {
+          handle.data       = action.data
+          handle.isFetching = false
+        }
+        return handle;
+      })
+    default:
+      return state
+  }
+}
+```

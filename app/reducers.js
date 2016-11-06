@@ -1,3 +1,6 @@
-export default (state = [], action) => {
-	return state
-}
+import {combineReducers} from "redux"
+import  handles from './reducers/handles'
+
+export default combineReducers({
+	handles
+})
