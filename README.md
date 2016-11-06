@@ -32,7 +32,7 @@ const store = createStore(
 Creating Redux Actions
 ----------------------
 
-Actions are just a plain javascript object. What do you want to include in this object is totally upto you,
+Actions are just a plain javascript object. What do you want to include in this object is totally upto you.
 
 Create a `app/actions` directory and add a `handles.js` file in it.
 
@@ -52,7 +52,7 @@ export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
 ```
 
 
-Actions can be called by anyone. So we create action functions to return new action object each time.
+Actions can be called by anyone. So we create action functions to return new action object.
 
 ```js
 // app/actions/handles.js
@@ -77,9 +77,9 @@ let receiveTweets = (data, handle) => {
 Creating Redux Reducers
 -----------------------
 
-Reducers are the only one responsible for updating your application state. Each reducer handles a specific part of the application state.
+Reducers are responsible for updating your application state. Each reducer handles a specific part of the application state. In this case `handles` key in the application state.
 
-In this case handles. This is the initial application state:
+This is the initial application state:
 ```js
 {
     handles: []
