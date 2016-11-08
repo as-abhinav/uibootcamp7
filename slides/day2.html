@@ -141,22 +141,54 @@
                   <section>
                     <img src="https://cdn.rawgit.com/westeezy/ReactJS-Bootcamp/master/walkthroughs/slides/day2/img/react_component_hierarchy.png" />
                   </section>
+                </section>
+                <section>
                   <section>
-                    <ul>
-                      <li>An owner is the component that sets the props of other components.</li>
-                      <li>React components can be created and rerendered with props from parent components</li>
-                      <li>Children usually rendered in the order they appear in the DOM but can dynamically be added like search results</li>
-                    </ul>
+                    <h2>What are PROPS?</h2>
+                    <img src="./images/props.png" alt="passing props example" height="500" width="400" />
+                  </section>
+                  <section>
+                    <h2>Where is the code?</h2>
+                    <h4>supply props</h4>
+                    <pre>
+                      <code>
+< Welcome name="Sara" />
+                      </code>
+                    </pre>
+                    <h4>access props</h4>
+                    <pre>
+                      <code>
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+                      </code>
+                    </pre>
+                  </section>
+                  <section>
+                    <h2>How will that look?</h2>
+                    <h4>Like this!</h4>
+                    <h1>Hello, Sara</h1>
                   </section>
                 </section>
                 <section>
-                    <h2>Passing Props</h2>
-<pre><code>
-<div className="wrapper">
-  <ChildComponent propToPass={this.propToPass} >
-  </ChildComponent>
-</div>
-</code></pre>
+                  <section>
+                      <h2>Passing Props</h2>
+                      <img src="./images/passing_props.png" alt="passing props" height="500" width="400" />
+                  </section>
+                  <section>
+                      <h3>Complex component structure</h2>
+                      <img src="./images/passing_props_example_1.png" alt="passing props example" height="500" width="400" />
+                  </section>
+                  <section>
+                      <h3>Passing Props all the way down</h2>
+                      <img src="./images/passing_props_example_2.png" alt="passing props example" height="500" width="400" />
+                  </section>
+                  <section>
+                      <h3>Not so simple is it?</h2>
+                      <img src="./images/passing_props_example_3.png" alt="passing props example" height="500" width="400" />
+                  </section>
                 </section>
                 <section>
                   <section>
