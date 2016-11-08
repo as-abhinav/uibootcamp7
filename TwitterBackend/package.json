@@ -1,0 +1,32 @@
+{
+  "name": "twitterbackend",
+  "version": "0.0.1",
+  "description": "A backend server to authenticate an app on twitter and use twitter apis",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashishpundalik/TwitterBackend.git"
+  },
+  "keywords": [
+    "twitter",
+    "twitterapi",
+    "restservices"
+  ],
+  "author": "Aashish Pundalik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashishpundalik/TwitterBackend/issues"
+  },
+  "homepage": "https://github.com/ashishpundalik/TwitterBackend#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "twitter-node-client": "0.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

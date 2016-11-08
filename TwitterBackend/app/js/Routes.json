@@ -1,0 +1,5 @@
+{
+	"parentRoute": "/api",
+	"userTweets": "/user/tweets",
+	"myTweets": "/tweets"
+}
