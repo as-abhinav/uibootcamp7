@@ -21,3 +21,6 @@ Clone this repo
 * Learn:
     * `public/` dir is fully auto-generated and served by HTTP server. Write your code in `app/` dir.
     * Place static files you want to be copied from `app/assets/` to `public/`.
+
+## Running the Backend service
+   In order to run the Backend service to access twitter apis, kindly refer to [this page](https://github.com/ashishpundalik/TwitterBackend/blob/master/README.md)
