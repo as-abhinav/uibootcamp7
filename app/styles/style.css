@@ -1,0 +1,85 @@
+html {
+	min-height:100%;
+}
+
+body {
+	background:url('https://unsplash.it/500/400?random&blur') no-repeat transparent;
+	padding-top:50px;
+	background-size: cover;
+}
+
+
+/* Bootstrap overrides */
+.form-control, .btn {
+	border-radius:1px;
+}
+
+
+/* Component: setup-handle */
+#welcome-page .handle-form {
+	width: 300px;
+	margin: 200px auto 0;
+}
+
+.handle-form h1 {
+	text-align: center;
+}
+
+.handle-form input[type='text'] {
+	margin-bottom:10px;
+	font-size: 15px;
+}
+
+
+
+/* Deck page */
+.deck-wrap {
+	padding: 20px;
+}
+
+
+
+/* Deck list */
+.deck-list {
+	float: left;
+	width: 300px;
+	border: 1px solid #ccc;
+	margin-right: 30px;
+	background: #fff;
+}
+
+
+.deck-list .deck-title {
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+	font-weight: bold;
+}
+
+.deck-list .deck-body {
+	max-height: 600px;
+	overflow-y: auto;
+}
+
+
+/* tweet item */
+.tweet-item {
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+	margin: 0;
+}
+
+.tweet-item img {
+	width: 55px;
+	height: 55px;
+}
+
+.tweet-item .media-content {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+
+
+/* Navbar */
+.btn-add-deck {
+	margin-top: 11px
+}

@@ -42,7 +42,7 @@
                 <section data-transition="fade">
                     <section>
                         <h2>Flux</h2>
-                        <img src="https://cdn.rawgit.com/westeezy/ReactJS-Bootcamp/master/walkthroughs/slides/day5/img/index.png" alt="flux" width="700" />
+                        <img src="./images/flux.png" alt="flux" width="700" />
                     </section>
                     <section>
                         <div>
@@ -99,16 +99,16 @@
                     </ul>
                 </section>
                 <section>
-                    <img src="http://cdn.infoq.com/statics_s1_20160105-0313u5/resource/news/2014/05/facebook-mvc-flux/en/resources/flux-react-mvc.png" style="margin-top: -55px; border:none;"/>
-                    <img src="http://cdn.infoq.com/statics_s1_20160105-0313u5/resource/news/2014/05/facebook-mvc-flux/en/resources/flux-react.png" style="border:none;"/>
+                    <img src="./images/flux-react-mvc.png" style="margin-top: -55px; border:none;"/>
+                    <img src="./images/flux-react.png" style="border:none;"/>
                 </section>
                 <section>
                     <h5>MVC</h5>
-                    <img src="https://raw.githubusercontent.com/westeezy/ReactJS-Bootcamp/gh-pages/mvc.png" style="border:none;"/>
+                    <img src="./images/mvc-basic.png" style="border:none;"/>
                 </section>
                 <section>
                     <h5>Flux</h5>
-                    <img src="https://raw.githubusercontent.com/westeezy/ReactJS-Bootcamp/gh-pages/flux.png" style="border:none;"/>
+                    <img src="./images/flux-basic.png" style="border:none;"/>
                 </section>
 
 
@@ -118,6 +118,47 @@
                         <li>Create a router for our application</li>
                     </ul>
                 </section>
+                <section>
+                    <section>
+                        <h2>Redux</h2>
+                        <ul>
+                            <li>Redux is a framework that controls states in a JavaScript app.</li>
+                            <li>According to the official site:
+                                <p><em>Redux is a predictable state container for JavaScript apps.</em></p>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Why Redux</h2>
+                        <img src="./images/redux.png" alt="Redux" width="200px" style="border:0;box-shadow: none;" />
+                    </section>
+                    <section>
+                        <h2>Advantages</h2>
+                        <ul>
+                            <li>"A predictable state container"</li>
+                            <li>Single source of truth</li>
+                            <li>Portable code</li>
+                            <li>Separate presentation layer from logic and data</li>
+                            <li>You can specify the behavior of your app before even starting to write the UI.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Basic principle</h2>
+                        <p>
+                            <pre><code>
+    (previousState, action) => newState
+
+</code></pre>
+                        </p>
+                    </section>
+                    <section>
+                        <h2>Redux way of working</h2>
+                        <p>
+                            <img src="./images/redux-life.png" alt="Redux">
+                        </p>
+                    </section>
+                </section>
+
                 <section>
                     <h4>Stores are more than just models</h4>
                     <ul>
@@ -163,7 +204,7 @@ forEach([1, 2, 3], console.log);
                     </section>
                     <section>
                       <a href="https://www.youtube.com/watch?v=wfMtDGfHWpA">Video Here</a>
-                      <div>https://www.youtube.com/watch?v=wfMtDGfHWpA</div>
+                      <iframe width="800" height="450" src="https://www.youtube.com/embed/wfMtDGfHWpA" frameborder="0" allowfullscreen></iframe>
                     </section>
                 </section>
             </div>
@@ -178,7 +219,7 @@ forEach([1, 2, 3], console.log);
             progress: true,
             history: true,
             center: true,
-            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            transition: 'convex', // none/fade/slide/convex/concave/zoom
             // Optional reveal.js plugins
             dependencies: [
             { src: './lib/lib/js/classList.js', condition: function() { return !document.body.classList; } },
