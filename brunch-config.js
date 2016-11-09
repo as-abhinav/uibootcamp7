@@ -1,17 +1,21 @@
 exports.config = {
-	files: {
+	paths    : {
+		watched: ['app', 'test']
+	},
+	files    : {
 		javascripts: {
 			joinTo: {
+				'javascripts/vendor.js': /^(?!app|test)/,
 				'javascripts/app.js'   : /^app/,
-				'javascripts/vendor.js': /^(?!app)/
+				'test.js'              : /^test/
 			},
 		},
 		stylesheets: {joinTo: 'stylesheets/style.css'}
 	},
-	plugins: {
+	plugins  : {
 		babel: {presets: ['es2015', 'react']}
 	},
-	server : {
+	server   : {
 		port: 5555
 	}
 }

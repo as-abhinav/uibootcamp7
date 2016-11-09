@@ -1,238 +1,189 @@
-#Create containers and presentational components
+#Writing tests
+
+In this section, We will learn how to setup test framework in `brunch` and test the following: 
+
+* Actions
+* Async Actions
+* Reducers
+* Components
+* Containers
 
 
-You need to make your dumb components functional. `React-Redux` provides a way to separate logic from react components and extract it out into containers.
+Lets start with setting up the test framework.
 
-These containers just hold two functions in them.
+Install the following packages
 
-* **`mapStateToProps`**: Provides all the props needed for a React component
-* **`mapDispatchToProps`**: Provides all actions needed for a React component
+```sh
+npm install chai mocha --save-dev 
+```
 
-
-
-Create a `app/containers` directory and add a `handle-form.js` file in it.
-
-
-Container:
+Setup your brunch config as follows
+ 
 ```js
+// brunch-config.js
 
-app/containers/handle-form.js
-
-import React from 'react'
-import {connect} from "react-redux"
-import {PUSH} from 'redux-little-router'
-
-import {fetchTweets} from '../actions/handles'
-import HandleForm from '../components/handle-form'
-
-const mapStateToProps = (state) => {
-  return {}
+exports.config = {
+  paths    : {
+    watched: ['app', 'test']
+  },
+  files    : {
+    javascripts: {
+      joinTo: {
+        'javascripts/vendor.js': /^(?!app|test)/,
+        'javascripts/app.js'   : /^app/,
+        'test.js'              : /^test/
+      },
+    },
+    stylesheets: {joinTo: 'stylesheets/style.css'}
+  },
+  plugins  : {
+    babel: {presets: ['es2015', 'react']}
+  },
+  server   : {
+    port: 5555
+  }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onHandleSubmit: (handle) => {
-      dispatch(fetchTweets(handle))
+```
 
-      dispatch({
-        type   : PUSH,
-        payload: '/deck'
-      })
+
+Create a `test` directory.
+
+Add a `.mocha.opts` file in the `test` directory.
+
+In `.mocha.opts` file add the following commands:
+ 
+```sh
+--compilers js:babel-core/register
+--require jsdom-global/register
+
+```
+
+
+
+Add a `.babelrc` file at the root level
+
+```js
+{
+	"presets": ["es2015", "react"]
+}
+```
+
+
+
+Testing Actions
+---------------
+
+Create an `actions.handles.spec.js` file within `test` directory.
+
+```js
+// test/actions.handles.spec.js
+
+import {expect} from 'chai'
+import {requestTweets} from 'actions/handles'
+
+describe('Handle actions', () => {
+
+  it('should return object with correct values', () => {
+    const action = requestTweets('test')
+    expect(action.type).to.be.equal('REQUEST_TWEETS')
+    expect(action.handle).to.be.equal('test')
+  })
+})
+
+```
+
+
+Testing Reducers
+----------------
+
+Reducers are yet again pure functions and can be tested individually.
+
+Create a `reducers.handles.spec.js` file within `test` directory.
+
+```js
+// test/reducers.handles.spec.js
+
+import {expect} from 'chai'
+import {REQUEST_TWEETS} from 'actions/handles'
+
+import handlesReducer from 'reducers/handles'
+
+describe('Handles reducer', () => {
+
+  it('should return initial state', () => {
+    const state = handlesReducer(undefined, {})
+    expect(state instanceof Array).to.equal(true)
+  })
+
+
+  it('should return correct new state', () => {
+    const action   = {
+      type  : REQUEST_TWEETS,
+      handle: 'test'
     }
-  }
-}
+    const newState = handlesReducer(undefined, action)
 
-export default connect(mapStateToProps, mapDispatchToProps)(HandleForm)
-
+    expect(newState.length).to.equal(1)
+    expect(newState[0].name).to.equal('test')
+    expect(newState[0].isFetching).to.equal(true)
+    expect(newState[0].data instanceof Array).to.equal(true)
+  })
+})
 
 ```
 
 
-Modify the `app/components/handle-form.js` component to read props supplied by the `handle-form` container.
+Testing Components
+------------------
+
+Testing react component needs an actual DOM or anything that emulates the DOM.
+
+So we will be using a mocha helper in this case
+
+```sh
+npm install mocha-jsdom --save-dev
+```
 
 
-Component:
+Also for testing React components we will be using React testing utilities
+
+```sh
+npm install react-addon-test-utils enzyme --save-dev
+```
+
+Create a `components.handle-form.spec.js` in your `test` directory
+
+
 ```js
+// test/components.handle-form.spec.js
 
-// app/components/handle-form.js
+import {expect} from 'chai'
 
 import React from 'react'
+import { shallow } from 'enzyme'
 
-export default class HandleForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.onHandleSubmit = this.handleSubmit.bind(this)
-  }
-  handleSubmit(e) {
-    e.preventDefault()
-    this.props.onHandleSubmit(this.refs.handleInput.value)
-    return false
-  }
-  render() {
-    return (
-      <form className="handle-form" onSubmit={this.onHandleSubmit}>
-        <h1 className=" text-muted">Add a handle</h1>
-        <input ref="handleInput" name="twitter-handle" type="text" className="form-control input-lg" placeholder="@JohnMalkovich, #food or #music"></input>
-        <button className="btn btn-lg btn-primary btn-block" type="submit">
-          Go!
-        </button>
-      </form>
-    )
-  }
-}
+import HandleForm from '../app/components/handle-form'
+
+describe('Components.HandleForm', () => {
+
+  const node = shallow(<HandleForm />)
+  it('should be visible', () => {
+    expect(node.find('.handle-form')).to.have.length(1)
+  })
+})
 
 ```
 
 
-Modify `app/pages/welcome.js` file to call container instead of a component.
+Testing Async actions
+---------------------
 
-```js
-
-// app/pages/welcome.js
-
-import HandleForm from '../containers/handle-form'
-
-```
-
-
-Now, hit the browser with `localhost:5555/welcome`, add a tweet handle 'test' in the input and hit go. The page should be redirected to `/deck` route.
-
-
-Rendering tweets. Finally!!
----------------------------
-
-Add `deck-list.js` file in `app/containers` directory.
-
-
-```js
-
-//app/containers/deck-list.js
-
-import React from 'react'
-import {connect} from "react-redux"
-
-import DeckList from '../components/deck-list'
-
-const mapStateToProps = (state) => {
-  return {
-    handles: state.handles
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeckList)
-
-```
-
-
-Modify the `app/components/deck-list.js` component to read props supplied by the `deck-list` container.
-
-```js
-
-// app/components/deck-list.js
-
-import React from 'react'
-import TweetItem from "./tweet-item"
-
-export default class DeckList extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  renderList(handle) {
-    return (
-      <div className="deck-list" key={handle.name}>
-        <div className="deck-title">
-          {handle.name}
-        </div>
-        <div className="deck-body">
-          {
-            handle.isFetching
-              ?
-              <p>Loading...</p>
-              :
-              handle.data.map((tweet) => <TweetItem key={tweet.name} tweet={tweet} />)
-          }
-        </div>
-      </div>
-    )
-  }
-
-  render() {
-    return (
-      <div className="deck-wrap clearfix">
-        {
-          this.props.handles.length
-            ?
-            this.props.handles.map((handle) => this.renderList(handle))
-            :
-            <p>Loading...</p>
-        }
-      </div>
-    )
-  }
-}
-```
-
-
-Modify the `app/components/tweet-item.js` component to render tweet data.
-
-```js
-// app/components/tweet-item.js
-
-
-import React from 'react'
-
-export default class TweetItem extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <div className="media tweet-item">
-        <div className="media-left">
-          <a href="#">
-            <img alt="64x64" className="media-object" src="https://unsplash.it/128/128?random&blur"></img>
-          </a>
-        </div>
-        <div className="media-body">
-          <p className="media-heading">{this.props.tweet.name}</p>
-
-          <p className="media-content">
-            {this.props.tweet.content}
-          </p>
-        </div>
-      </div>
-    )
-  }
-}
-
-```
+Please refer to [Redux](http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators) docs for more information on testing Async actions.
 
 
 
-Modify the 'app/pages/deck.js' file to call `deck-list` container instead of a component
+Testing containers (connected components)
+-----------------------------------------
 
-```js
-import React from 'react'
-
-import DeckList from '../containers/deck-list'
-
-export default class Deck extends React.Component {
-  render() {
-    return (
-      <div id="deck-page">
-        <DeckList />
-      </div>
-    )
-  }
-}
-```
-
-
-Now, hit `localhost:5555/welcome`. Enter 'test' handle in the input. Hit Go. The page should be redirected to `/decks` route. The 2 dummy tweets should be visible in the test deck.
+Please refer to [Redux](http://redux.js.org/docs/recipes/WritingTests.html#connected-components) docs for more information on testing containers.

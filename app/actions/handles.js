@@ -1,7 +1,7 @@
 export const REQUEST_TWEETS = 'REQUEST_TWEETS'
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
 
-let requestTweets = (handle) => {
+export const requestTweets = (handle) => {
 	return {
 		type  : REQUEST_TWEETS,
 		handle: handle
