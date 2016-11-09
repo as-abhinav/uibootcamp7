@@ -178,7 +178,7 @@ class Welcome extends React.Component {
                     </div>
                   </section>
                   <section>
-                    <h2>Want to make something cooler?</h2>
+                    <h2>Want to make something a little more complicated?</h2>
                     <div class="fragment fade-in">
                       <h4>Try making it on your own. Here's a <a href="http://codepen.io/wolverine602/pen/MbaEwx">CodePen link</a> for your reference</h4>
                     </div>
@@ -190,7 +190,7 @@ class Welcome extends React.Component {
                 <section>
                   <section>
                       <h2>Passing Props</h2>
-                      <img src="./images/passing_props.png" alt="passing props" height="500" width="400" />
+                      <img src="./images/passing_props.jpg" alt="passing props" height="500" width="400" />
                   </section>
                   <section>
                       <h3>Complex component structure</h2>
@@ -206,181 +206,66 @@ class Welcome extends React.Component {
                   </section>
                 </section>
                 <section>
-                  <section>
-                    <h2>Refs</h2>
-                    <ul>
-                        <li>Reference to a component in that view</li>
-                        <li>Can be accessed in parent component by this.refs.refName</li>
-                    </ul>
-                    <pre><code>
-<div className="wrapper">
-  <ChildComponent ref="childComponent">
-  </ChildComponent>
-</div>
-                    </code></pre>
+                  <section data-transition="fade">
+                      <img src="./images/states_pic.jpg" alt="passing props" height="500" width="400" />
+                      <div class="fragment fade-in">
+                        <h4>If I can't update my props, how the <b>#$^%@!</b> do I update myself?</h4>
+                      </div>
+                  </section>
+                  <section data-transition="fade">
+                    <h2>ENTER<span  class = "fragment">.</span><span  class = "fragment">.</span><span  class = "fragment">.</span><span  class = "fragment">.</span><span  class = "fragment">.</span><span class = "fragment fade-in"> STATES!</span></h2>
+                    <div class = "fragment fade-in">
+                      <h3>how do I use states?</h3>
+                      <pre>
+                        <code>
+<p>The current temperature is: {this.state.temperature}</p>
+                        </code>
+                      </pre>
+                    </div>
                   </section>
                   <section>
-                    <ul>
-                      <li>Can reach out to components public facing methods</li>
-                      <li>Can reach out to native components like an input tag</li>
-                      <li>NEVER access a ref during render</li>
-                      <li>Automagically created and destroyed for you</li>
-                    </ul>
+                    <h3>how do I change the state?</h3>
+                    <div class = "fragment fade-in">
+<pre>
+  <code>
+    this.state.temperature = 30;
+  </code>
+</pre>
+                    </div>
+                    <div class = "fragment fade-in">
+                      <img src="./images/state_punishment.gif" alt="state punishment" height="200" width="400" />
+                    </div>
+                    <div class = "fragment fade-in">
+<pre>
+  <code>
+    this.setState({temperature: 30});
+  </code>
+</pre>
+                    </div>
+                  </section>
+                  <section>
+                    <h2>Let create a clock in 600 secs(10 mins)</h2>
+                    <div class = "fragment">
+                      <h1 id = "countDownTimer"></h1>
+                      <script type="text/javascript">
+                        var minSecs = 0, currSecs = 600, timer;
+                        var timerView = document.getElementById("countDownTimer");
+                        timer = setInterval(function() {
+                          if(currSecs === minSecs) {
+                            clearInterval(timer);
+                            timerView.innerHTML = "Time's up!";
+                          } else {
+                            timerView.innerHTML = currSecs;
+                            currSecs--;
+                          }
+                        }, 1000);
+                      </script>
+                    </div>
                   </section>
                 </section>
-
-                <section data-transition="fade">
-                    <h2>React States</h2>
-                    <ul>
-                        <li>Component State</li>
-                        <li>Manipulating States</li>
-                        <li>Methods of storing data for components</li>
-                    </ul>
-                </section>
                 <section>
-                    <img src="https://cdn.rawgit.com/westeezy/ReactJS-Bootcamp/master/walkthroughs/slides/day3/img/house.jpeg" />
+                    <img src="./images/day2_presentation_complete.jpg" alt="passing props" height="650" width="500" />
                 </section>
-                <section>
-                    <h2>... but seriously</h2>
-                    <ul>
-                      <li>State isn't that awful but you should be mindful of it while
-                          designing your components
-                      </li>
-                      <li>Favor "dumb" stateless components getting data from "smart" parent components
-                      </li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Component State</h2>
-                    <ul>
-                        <li>Keep state as simple as possible including keeping simple data types</li>
-                        <li>Only place something on state if the component 100% owns it</li>
-                        <li>Leave complex calculations on render if possible</li>
-                        <li>this.state is immutable so use `this.setState({})`</li>
-                        <li>Less on state means easier testing</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Manipulating State</h2>
-                    <ul>
-                        <li>Set state is an async function</li>
-                        <li>Props aren't available during getInitialState</li>
-                        <li>Can not manipulate state during render lifecycle</li>
-                        <li>State changes trigger a rerender -> think state changes with dom events</li>
-                        <li>shouldComponentUpdate can be used for "pure" rendering</li>
-                    </ul>
-                </section>
-                <section>
-                    <h4>shouldComponentUpdate</h4>
-                    <ul>
-                        <li><pre><code>boolean shouldComponentUpdate(object nextProps, object nextState)</code></pre></li>
-                        <li>React has a PureRenderMixin but we can easily build one ourselves</li>
-                        <li>called before component rerender and if it returns false will cancel render</li>
-                        <li>can use this oppurtunity to check new state and props against old ones</li>
-                        <li>default returns true</li>
-                        <li>great to modify for performance</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Storing data on components</h2>
-                    <ul>
-                        <li>If we think of a component that needs an ajax call to retrive it's <bold>OWN</bold> data..</li>
-                        <li>This is a good time to use state. On xhr completion we can update state and let the component rerender</li>
-                    </ul>
-                </section>
-
-                <section data-transition="fade">
-                    <h2>React Forms</h2>
-                    <ul>
-                        <li>Forms Forms Forms</li>
-                        <li>Controlled vs Uncontrolled inputs</li>
-                        <li>State and Forms Components</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Forms with React</h2>
-                    <ul>
-                        <li>React provides us some nice to haves here</li>
-                        <li>Props: Value, checked, selection are updated by user interactions automagically</li>
-                        <li>onChange event exists to track changes</li>
-                        <li>onSubmit for submission</li>
-                        <li>defaultValue for.. yeah</li>
-                    </ul>
-                </section>
-                <section>
-                    <section>
-                        <h2>Controlled vs Uncontrolled Inputs</h2>
-                        <ul>
-                            <li>A form component with a value set is known as a <pre><code>controlled input</code></pre></li>
-                            <li>A form component without a value set is known as an <pre><code>uncontrolled input</code></pre></li>
-                        </ul>
-                    </section>
-                </section>
-                <section>
-                    <section>
-                        <h2>Controlled Input</h2>
-                        <ul>
-                            <li>Always shows whats in it's value property</li>
-                            <li>Thus direct user input has no effect</li>
-                            <li>onChange and state can be used to change it's value</li>
-                            <li>React owns state of the component at any time</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Examples</h2>
-<pre><code>getInitialState() {
-  return { value: "Person" };
-}
-
-handleChange(event) {
-  this.setState({ value: event.target.value });
-}
-
-render() {
-  return (
-  <div>
-    <input value={this.state.value} onChange={this.handleChange} />
-    <span>{'Hello ' + this.state.value}</span>
-  </div>);
-}
-</code></pre>
-                    </section>
-                </section>
-                <section>
-                    <section>
-                        <h2>Uncontrolled Input</h2>
-                        <ul>
-                            <li>Input that does not have a value prop or value is set to null</li>
-                            <li>Value reflects user input</li>
-                            <li>can still use onChange if you want to listen to value updates</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Examples</h2>
-<pre><code>
-handleChange(event) {
-  let newValue = event.target.value;
-  this.setState({ value: newValue });
-}
-render() {
-  return (<div>
-            <input onChange={this.handleChange} />
-            <span>{'Hello ' + this.state.value}</span>
-          </div>);
-}
-</code></pre>
-                    </section>
-                </section>
-                <section>
-                    <h2>State with Forms</h2>
-                    <ul>
-                        <li>You can use state to trigger error messaging etc for on blur</li>
-                        <li>State can be used to defaultValue from api responses</li>
-                    </ul>
-                    <p><a href="./day3.html">Next day</a></p>
-                </section>
-
-
             </div>
         </div>
         <script src="./lib/lib/js/head.min.js"></script>
