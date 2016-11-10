@@ -36,12 +36,22 @@ var TwitterUtil = (function() {
 		}
 	}
 
+	var getSearchedTweets = function(hashtag, tweetsCount, errorCB, successCB) {
+		if(!successCB || !errorCB) {
+			throw new Error("Need to supply a success and an error callback");
+		} else {
+			twitter.getSearch({'q': "#"+hashtag, 'count': tweetsCount}, twitterAuthFailure.bind(this, errorCB),
+				twitterAuthSuccess.bind(this, errorCB, successCB));
+		}	
+	}
+
 	var twitterAuthSuccess = function(errorCB, successCB, response) {
 		console.log("sucess", response);
 		var jsonResp = JSON.parse(response);
 		console.log(jsonResp);
 		try {
-			var tweets = CustomTweetFactory.build(jsonResp);
+			console.log(jsonResp.statuses);
+			var tweets = CustomTweetFactory.build(jsonResp.statuses);
 			console.log("Success!");
 			console.log("Resp: ", tweets);
 			successCB(tweets);
@@ -56,7 +66,7 @@ var TwitterUtil = (function() {
 		errorCB(error);
 	}
 
-	return {getUserTimeline, getMyTweets};
+	return {getUserTimeline, getMyTweets, getSearchedTweets};
 })();
 
 module.exports = TwitterUtil;

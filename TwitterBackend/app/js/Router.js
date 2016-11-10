@@ -10,6 +10,7 @@ module.exports = (function() {
 	Router.prototype.setupRoutes = function() {
 		configureUserTweetsRoute();
 		configureMyTweetsRoute();
+		configureSearchTweets();
 	}
 
 	Router.prototype.getExpressRouter = function() {
@@ -33,7 +34,6 @@ module.exports = (function() {
 			twitterUtil.getUserTimeline(req.query.twitterHandle, req.query.tweetCount, function(err) {
 				console.log(err);
 			}, function(resp) {
-				console.log(resp);
 				res.send(resp);
 			})
 		});
@@ -44,14 +44,26 @@ module.exports = (function() {
 		router.get(routes.myTweets, function(req, res) {
 			console.log("Entering route: "+routes.myTweets);
 			console.log("Request params: "+req);
-			twitterUtil.getMyTweets(req.tweetCount, function(err) {
+			twitterUtil.getMyTweets(req.query.tweetCount, function(err) {
 				console.log(err);
 			}, function(resp) {
-				console.log(resp);
 				res.send(resp);
 			});
 		});
 	};
+
+	var configureSearchTweets = function() {
+		console.log("Configuring route: "+routes.myTweets);
+		router.get(routes.searchTweets, function(req, res) {
+			console.log("Entering route: "+routes.searchTweets);
+			console.log("Request params: "+req.query.hashtag);
+			twitterUtil.getSearchedTweets(req.query.hashtag, req.query.tweetCount, function(err) {
+				console.log(err);
+			}, function(resp) {
+				res.send(resp);
+			});
+		})
+	}
 
 	return Router;
 })();

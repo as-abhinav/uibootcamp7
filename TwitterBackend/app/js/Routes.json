@@ -1,5 +1,6 @@
 {
 	"parentRoute": "/api",
 	"userTweets": "/user/tweets",
-	"myTweets": "/tweets"
+	"myTweets": "/tweets",
+	"searchTweets": "/search"
 }
