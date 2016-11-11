@@ -142,7 +142,7 @@ Testing react component needs an actual DOM or anything that emulates the DOM.
 So we will be using a mocha helper in this case
 
 ```sh
-npm install mocha-jsdom --save-dev
+npm install jsdom jsdom-global --save-dev
 ```
 
 

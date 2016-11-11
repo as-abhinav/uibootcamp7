@@ -1,13 +1,9 @@
 exports.config = {
-	paths    : {
-		watched: ['app', 'test']
-	},
 	files    : {
 		javascripts: {
 			joinTo: {
 				'javascripts/vendor.js': /^(?!app|test)/,
-				'javascripts/app.js'   : /^app/,
-				'test.js'              : /^test/
+				'javascripts/app.js'   : /^app/
 			},
 		},
 		stylesheets: {joinTo: 'stylesheets/style.css'}
