@@ -172,6 +172,160 @@
                         </p>
                     </section>
                 </section>
+                <section>
+                    <section>
+                        <h2>Testing React/Redux using Brunch</h2>
+                    </section>
+                    <section>
+                        <h3>Agenda</h3>
+                        <p>We will learn how to setup test framework in <code>brunch</code> and test the following:</p>
+                        <ul>
+                            <li>Actions</li>
+                            <li>Async Actions</li>
+                            <li>Reducers</li>
+                            <li>Components</li>
+                            <li>Containers</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>First we install <code>chai</code> and <code>mocha</code>:
+                        <pre><code>npm install chai mocha --save-dev</code></pre>
+                    </section>
+                    <!-- <section>
+                        <h3>brunch config</h3>
+                        <pre><code>exports.config = {
+  paths    : {
+    watched: ['app', 'test']
+  },
+  files    : {
+    javascripts: {
+      joinTo: {
+        'javascripts/vendor.js': /^(?!app|test)/,
+        'javascripts/app.js'   : /^app/,
+        'test.js'              : /^test/
+      },
+    },
+    stylesheets: {joinTo: 'stylesheets/style.css'}
+  },
+  plugins  : {
+    babel: {presets: ['es2015', 'react']}
+  },
+  server   : {
+    port: 5555
+  }
+}</code></pre>
+                    </section> -->
+                    <section>
+                        <h3>Test config for mocha</h3>
+                        <ul>
+                            <li>Create a <code>test</code> directory.</li>
+                            <li>Add a <code>.mocha.opts</code> file in the test directory.</li>
+                            <li>In .mocha.opts file add the following commands:
+                                <pre><code>--compilers js:babel-core/register
+--require jsdom-global/register</code></pre>
+                            </li>
+                            <li>Add a .babelrc file at the root level
+                                <pre><code>{
+    "presets": ["es2015", "react"]
+}</code></pre></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Testing Actions:</h3>
+                        <p>actions.handles.spec.js in test dir</p>
+                        <pre><code>// test/actions.handles.spec.js
+
+import {expect} from 'chai'
+import {requestTweets} from 'actions/handles'
+
+describe('Handle actions', () => {
+
+  it('should return object with correct values', () => {
+    const action = requestTweets('test')
+    expect(action.type).to.be.equal('REQUEST_TWEETS')
+    expect(action.handle).to.be.equal('test')
+  })
+})</code></pre>
+                    </section>
+                    <section>
+                        <h3>Testing Reducers:</h3>
+                        <p>reducers.handles.spec.js in test dir</p>
+                        <pre><code>// test/reducers.handles.spec.js
+
+import {expect} from 'chai'
+import {REQUEST_TWEETS} from 'actions/handles'
+
+import handlesReducer from 'reducers/handles'
+
+describe('Handles reducer', () => {
+
+  it('should return initial state', () => {
+    const state = handlesReducer(undefined, {})
+    expect(state instanceof Array).to.equal(true)
+  })
+
+
+  it('should return correct new state', () => {
+    const action   = {
+      type  : REQUEST_TWEETS,
+      handle: 'test'
+    }
+    const newState = handlesReducer(undefined, action)
+
+    expect(newState.length).to.equal(1)
+    expect(newState[0].name).to.equal('test')
+    expect(newState[0].isFetching).to.equal(true)
+    expect(newState[0].data instanceof Array).to.equal(true)
+  })
+})</code></pre>
+                    </section>
+                    <section>
+                        <h3>Testing Components:</h3>
+                        <ul>
+                            <li>So we will be using a mocha helper in this case</li>
+                            <li><pre><code>npm install mocha-jsdom --save-dev</code></pre></li>
+                            <li>Also for testing React components we will be using React testing utilities</li>
+                            <li><pre><code>npm install react-addon-test-utils enzyme --save-dev</code></pre></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>Create a components.handle-form.spec.js in your test directory</p>
+                        <pre><code>// test/components.handle-form.spec.js
+
+import {expect} from 'chai'
+
+import React from 'react'
+import { shallow } from 'enzyme'
+
+import HandleForm from '../app/components/handle-form'
+
+describe('Components.HandleForm', () => {
+  const node = shallow(<HandleForm></HandleForm>)
+  it('should be visible', () => {
+    expect(node.find('.handle-form')).to.have.length(1)
+  })
+})</code></pre>
+                    </section>
+                    <section>
+                        <h3>Testing Async Actions:</h3>
+                        <p>Please refer to <a href="http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators" target="newRedux">Redux docs</a> for more information on testing Async actions.</p>
+                    </section>
+                    <section>
+                        <h3>Testing containers</h3>
+                        <h4>(connected components)</h4>
+                        <p>Please refer to <a href="http://redux.js.org/docs/recipes/WritingTests.html#connected-components" target="newRedux">Redux docs</a> for more information on testing Async actions.</p>
+                    </section>
+                </section>
+                <section>
+                    <h2>Recap expectations</h2>
+                    <ul>
+                        <li class="fragment highlight-blue">Why react is so popular?</li>
+                        <li class="fragment highlight-blue">Min libraries to get a UI app running/development.</li>
+                        <li class="fragment highlight-blue">Comparisons between react and angular.</li>
+                        <li class="fragment highlight-blue">Testing using React.</li>
+                        <li class="fragment highlight-blue">Debugging a UI application.</li>
+                    </ul>
+                </section>
             </div>
         </div>
         <script src="./lib/lib/js/head.min.js"></script>
