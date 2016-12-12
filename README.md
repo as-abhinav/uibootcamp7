@@ -40,6 +40,25 @@ const store = createStore(
 )
 ```
 
+Configure routes in a new file `routes.js`
+
+```js
+
+// app/routes.js
+
+export default {
+  "/": {
+   '/welcome': {
+     title: "Welcome"
+    },
+    '/deck': {
+      title: "Deck"
+    }
+  }
+}
+```
+
+
 
 Change your load function as follows
 
