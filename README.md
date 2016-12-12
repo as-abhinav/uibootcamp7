@@ -1,5 +1,10 @@
 #Setup ReduxJS  
 
+Install Redux
+```js
+npm install redux react-redux
+```
+
 Import required modules
 ```js
 //app/initialize.js
@@ -33,12 +38,11 @@ Change your load function as follows
 
 ```js
 //app/initialize.js
-const load = () => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-	</Provider>
-    , document.querySelector('#app')
-  )
-}
+
+ReactDOM.render(
+<Provider store={store}>
+  <App />
+</Provider>
+, document.querySelector('#app')
+)
 ```
