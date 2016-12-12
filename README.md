@@ -120,5 +120,4 @@ export default class App extends React.Component {
 }
 ```
 
-
-Hit the browser with `/welcome` and `/deck` routes to verify if the components are getting rendered in their respective routes.  
+Hit the browser with `/welcome` and `/deck` routes to verify if the components are getting rendered in their respective routes.
