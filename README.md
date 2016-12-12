@@ -1,5 +1,11 @@
 #Setup Routes 
 
+Install npm modules
+
+```js
+npm install redux-little-router --save
+```
+
 Tech Import required modules
 ```js
 // app/initialize.js
@@ -28,7 +34,6 @@ const store = createStore(
   reducers, // All reducers
   {}, // initial state
   compose(
-    applyMiddleware(thunkMiddleware), // DO NOT CHANGE THE SEQUENCE OF THUNK MIDDLEWARE. It should always be first.
     routerEnhancer, // Redux little router middleware
     applyMiddleware(routerMiddleware) // Redux little router middleware
   )
