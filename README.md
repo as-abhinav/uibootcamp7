@@ -1,7 +1,7 @@
 # Designing a visual prototype
 
 
-For a quick css work, we will be using `Twitter Bootstrap`. 
+For quick css work, we will be using `Twitter Bootstrap`. 
 
 Add the Bootstrap CDN to your `index.html` page's `<head>` block.
 
@@ -49,8 +49,11 @@ Designing new components:
 Refer to `app/components` directory.
 
 **`handle-form`**: Displays form to add handle to the deck
+
 **`navbar`**: Holds application title and a button to add more handles
+
 **`deck-list`**: Column like boxes which display tweets of a respective handle
+
 **`tweet-item`**: Displays tweet information
 
 
