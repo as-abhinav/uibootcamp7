@@ -22,7 +22,7 @@ import React from 'react'
 import {connect} from "react-redux"
 import {PUSH} from 'redux-little-router'
 
-import {fetchTweets} from '../actions/handles'
+import {addHandle} from '../actions/handles'
 import HandleForm from '../components/handle-form'
 
 const mapStateToProps = (state) => {
@@ -32,8 +32,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onHandleSubmit: (handle) => {
-      dispatch(fetchTweets(handle))
-
+      
+      dispatch(addHandle(handle))
+      
       dispatch({
         type   : PUSH,
         payload: '/deck'
@@ -101,7 +102,7 @@ Now, hit the browser with `localhost:5555/welcome`, add a tweet handle 'test' in
 Rendering tweets. Finally!!
 ---------------------------
 
-Add `deck-list.js` file in `app/containers` directory.
+Add `deck-list-wrap.js` file in `app/containers` directory.
 
 
 ```js
@@ -110,8 +111,9 @@ Add `deck-list.js` file in `app/containers` directory.
 
 import React from 'react'
 import {connect} from "react-redux"
+import {requestTweets} from '../actions/handles'
 
-import DeckList from '../components/deck-list'
+import DeckListWrap from '../components/deck-list-wrap'
 
 const mapStateToProps = (state) => {
   return {
@@ -121,19 +123,54 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onViewMounted: (handle) => {
+      dispatch(requestTweets(handle))
+    }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeckList)
+export default connect(mapStateToProps, mapDispatchToProps)(DeckListWrap)
 
 ```
 
 
-Modify the `app/components/deck-list.js` component to read props supplied by the `deck-list` container.
+Modify the `app/components/deck-list-wrap.js` component to read props supplied by the `deck-list-wrap` container.
+
+```js
+
+// app/components/deck-list-wrap.js
+
+import React from 'react'
+import DeckList from "./deck-list"
+
+export default class DeckListWrap extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div className="deck-wrap clearfix">
+        {
+          this.props.handles && this.props.handles.length
+            ?
+            this.props.handles.map((handle) => <DeckList key={handle.name} handle={handle} onViewMounted={this.props.onViewMounted} />)
+            :
+            <p>Loading...</p>
+        }
+      </div>
+    )
+  }
+}
+```
+
+
+Modify the `app/components/deck-list.js` component to read props supplied by its parent i.e. `deck-list-wrap` component.
 
 ```js
 
 // app/components/deck-list.js
+
 
 import React from 'react'
 import TweetItem from "./tweet-item"
@@ -143,7 +180,12 @@ export default class DeckList extends React.Component {
     super(props)
   }
 
-  renderList(handle) {
+  componentDidMount() {
+    this.props.onViewMounted(this.props.handle)
+  }
+
+  render() {
+    const handle = this.props.handle
     return (
       <div className="deck-list" key={handle.name}>
         <div className="deck-title">
@@ -161,21 +203,8 @@ export default class DeckList extends React.Component {
       </div>
     )
   }
-
-  render() {
-    return (
-      <div className="deck-wrap clearfix">
-        {
-          this.props.handles.length
-            ?
-            this.props.handles.map((handle) => this.renderList(handle))
-            :
-            <p>Loading...</p>
-        }
-      </div>
-    )
-  }
 }
+
 ```
 
 
@@ -221,13 +250,13 @@ Modify the 'app/pages/deck.js' file to call `deck-list` container instead of a c
 ```js
 import React from 'react'
 
-import DeckList from '../containers/deck-list'
+import DeckListWrap from '../containers/deck-list-wrap'
 
 export default class Deck extends React.Component {
   render() {
     return (
       <div id="deck-page">
-        <DeckList />
+        <DeckListWrap />
       </div>
     )
   }

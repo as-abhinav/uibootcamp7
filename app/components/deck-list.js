@@ -6,7 +6,12 @@ export default class DeckList extends React.Component {
 		super(props)
 	}
 
-	renderList(handle) {
+	componentDidMount() {
+		this.props.onViewMounted(this.props.handle)
+	}
+
+	render() {
+		const handle = this.props.handle
 		return (
 			<div className="deck-list" key={handle.name}>
 				<div className="deck-title">
@@ -21,20 +26,6 @@ export default class DeckList extends React.Component {
 							handle.data.map((tweet) => <TweetItem key={tweet.name} tweet={tweet} />)
 					}
 				</div>
-			</div>
-		)
-	}
-
-	render() {
-		return (
-			<div className="deck-wrap clearfix">
-				{
-					this.props.handles.length
-						?
-						this.props.handles.map((handle) => this.renderList(handle))
-						:
-						<p>Loading...</p>
-				}
 			</div>
 		)
 	}
