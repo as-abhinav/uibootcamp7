@@ -46,6 +46,7 @@ Creating action constants is important as these actions will be listened by the 
 
 // app/actions/handles.js
 
+export const ADD_HANDLE = 'ADD_HANDLE'
 export const REQUEST_TWEETS = 'REQUEST_TWEETS'
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
 
@@ -56,6 +57,14 @@ Actions can be called by anyone. So we create action functions to return new act
 
 ```js
 // app/actions/handles.js
+
+
+export const addHandle = (handle) => {
+  return {
+    type  : ADD_HANDLE,
+    handle: handle
+  }
+}
 
 export const requestTweets = (handle) => {
   return {
@@ -74,8 +83,8 @@ export const receiveTweets = (data, handle) => {
 ```
 
 
-Creating Redux Reducers
------------------------
+Creating Reducers
+-----------------
 
 Reducers are responsible for updating your application state. Each reducer handles a specific part of the application state. In this case `handles` key in the application state.
 
@@ -124,13 +133,14 @@ Now, modify `app/reducers/handle.js` file to listen to a redux action that we ju
 
 // app/reducers/handle.js
 
-import {REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
+import {ADD_HANDLE, REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
 import {fetchTweets} from '../effects/handles'
 import {loop, Effects} from 'redux-loop'
 
 export default (state = [], action) => {
+  
   switch (action.type) {
-    case REQUEST_TWEETS:
+    case ADD_HANDLE:
       let newState = state.map((handles) => handles)
 
       newState.push({
@@ -139,11 +149,13 @@ export default (state = [], action) => {
         data      : []
       })
 
-      return loop(
-        newState,
-        Effects.promise(fetchTweets, action.handle)
-      )
+      return newState
 
+    case REQUEST_TWEETS:
+
+      return loop(
+        state, Effects.promise(fetchTweets, action.handle.name)
+      )
 
     case RECEIVE_TWEETS:
       return state.map((handle) => {
@@ -151,8 +163,9 @@ export default (state = [], action) => {
           handle.data       = action.data
           handle.isFetching = false
         }
-        return handle;
+        return handle
       })
+
     default:
       return state
   }
