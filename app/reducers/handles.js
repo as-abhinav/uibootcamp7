@@ -1,4 +1,6 @@
 import {REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
+import {fetchTweets} from '../effects/handles'
+import {loop, Effects} from 'redux-loop'
 
 export default (state = [], action) => {
 	switch (action.type) {
@@ -11,7 +13,10 @@ export default (state = [], action) => {
 				data      : []
 			})
 
-			return newState
+			return loop(
+				newState,
+				Effects.promise(fetchTweets, action.handle)
+			)
 
 
 		case RECEIVE_TWEETS:
