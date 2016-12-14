@@ -1,11 +1,11 @@
 # Create actions, reducers for fetching tweets
 
-For async actions we will be needing a redux middleware library called as `redux-thunk`. 
+For async actions we will be needing a redux middleware library called as `redux-loop`. 
 
-Install `redux-thunk` in your app
+Install `redux-loop` in your app
 
 ```sh
-npm install --save redux-thunk
+npm install --save redux-loop
 ```
 
 
@@ -14,22 +14,22 @@ Register the middleware when initializing the redux store.
 ```js
 // app/initialize.js
 
-import thunkMiddleware from 'redux-thunk'
+import { install } from 'redux-loop'
 
 const store = createStore(
   reducers, // All reducers
   {},
   compose(
-    applyMiddleware(thunkMiddleware),
     routerEnhancer, // Redux little router middleware
-    applyMiddleware(routerMiddleware) // Redux little router middleware
+    applyMiddleware(routerMiddleware), // Redux little router middleware
+    install()
   )
 )
 ```
 
 
 
-Creating Redux Actions
+Creating Redux Actions 
 ----------------------
 
 Actions are just a plain javascript object. What do you want to include in this object is totally upto you.
@@ -57,14 +57,14 @@ Actions can be called by anyone. So we create action functions to return new act
 ```js
 // app/actions/handles.js
 
-let requestTweets = (handle) => {
+export const requestTweets = (handle) => {
   return {
     type  : REQUEST_TWEETS,
     handle: handle
   }
 }
 
-let receiveTweets = (data, handle) => {
+export const receiveTweets = (data, handle) => {
   return {
     type  : RECEIVE_TWEETS,
     data  : data,
@@ -93,12 +93,26 @@ Let's register our `app/reducers/handles.js` reducer to the specific part of tha
 
 // app/reducers.js 
 
-import {combineReducers} from "redux"
+import {combineReducers} from "redux-loop"
 import  handles from './reducers/handles'
 
 export default combineReducers({
 	handles
 })
+
+```
+
+Create a `effects` folder under the `app` directory and add a `handle.js` file in it.
+
+This will hold your API call for fetching tweets.
+
+```js
+import {receiveTweets} from '../actions/handles'
+
+export const fetchTweets = (handle) => {
+  // Your API call
+  return Promise.resolve(receiveTweets(handle, [{name: 'tweet1'}, {name: 'tweet2'}]))
+}
 
 ```
 
@@ -111,6 +125,8 @@ Now, modify `app/reducers/handle.js` file to listen to a redux action that we ju
 // app/reducers/handle.js
 
 import {REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
+import {fetchTweets} from '../effects/handles'
+import {loop, Effects} from 'redux-loop'
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -123,7 +139,11 @@ export default (state = [], action) => {
         data      : []
       })
 
-      return newState
+      return loop(
+        newState,
+        Effects.promise(fetchTweets, action.handle)
+      )
+
 
     case RECEIVE_TWEETS:
       return state.map((handle) => {
@@ -137,4 +157,5 @@ export default (state = [], action) => {
       return state
   }
 }
+
 ```
