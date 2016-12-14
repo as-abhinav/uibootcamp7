@@ -15,10 +15,10 @@ export default class TweetItem extends React.Component {
 					</a>
 				</div>
 				<div className="media-body">
-					<p className="media-heading">{this.props.tweet.name}</p>
+					<p className="media-heading">{this.props.tweet.user}</p>
 
 					<p className="media-content">
-						{this.props.tweet.content}
+						{this.props.tweet.tweet}
 					</p>
 				</div>
 			</div>
