@@ -7,7 +7,7 @@ export default class DeckList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.onViewMounted(this.props.handle)
+		this.props.onViewMounted(this.props.handle.name)
 	}
 
 	render() {
