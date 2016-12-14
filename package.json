@@ -34,7 +34,7 @@
     "jsdom": "^9.8.3",
     "jsdom-global": "^2.1.0",
     "mocha": "^3.1.2",
-    "react-addons-test-utils": "^15.3.2",
+    "react-addons-test-utils": "^15.4.1",
     "uglify-js-brunch": "^2.0.1"
   }
 }

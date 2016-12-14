@@ -3,10 +3,10 @@
 In this section, We will learn how to setup test framework in `brunch` and test the following: 
 
 * Actions
-* Async Actions
 * Reducers
 * Components
 * Containers
+* Effects
 
 
 Lets start with setting up the test framework.
@@ -105,9 +105,11 @@ Create a `reducers.handles.spec.js` file within `test` directory.
 // test/reducers.handles.spec.js
 
 import {expect} from 'chai'
-import {REQUEST_TWEETS} from 'actions/handles'
+import {loop, Effects} from 'redux-loop'
 
-import handlesReducer from 'reducers/handles'
+import {ADD_HANDLE, REQUEST_TWEETS} from '../app/actions/handles'
+import {fetchTweets} from '../app/effects/handles'
+import handlesReducer from '../app/reducers/handles'
 
 describe('Handles reducer', () => {
 
@@ -117,18 +119,34 @@ describe('Handles reducer', () => {
   })
 
 
-  it('should return correct new state', () => {
+  it('should return correct state on calling ADD_HANDLE action', () => {
     const action   = {
-      type  : REQUEST_TWEETS,
+      type  : ADD_HANDLE,
       handle: 'test'
     }
-    const newState = handlesReducer(undefined, action)
+    const newState = handlesReducer([], action)
 
     expect(newState.length).to.equal(1)
     expect(newState[0].name).to.equal('test')
     expect(newState[0].isFetching).to.equal(true)
     expect(newState[0].data instanceof Array).to.equal(true)
   })
+
+
+  it('should return correct state on calling ADD_HANDLE action', () => {
+
+    const action   = {
+            type  : REQUEST_TWEETS,
+            handle: 'test'
+          },
+          previousState = [{"data": [],"isFetching": true,"name": "test"}],
+          newState = handlesReducer(previousState, action)
+
+    expect(newState).to.deep.equal(loop(
+      previousState, Effects.promise(fetchTweets, action.handle)
+    ))
+  })
+
 })
 
 ```
@@ -176,14 +194,13 @@ describe('Components.HandleForm', () => {
 ```
 
 
-Testing Async actions
----------------------
-
-Please refer to [Redux](http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators) docs for more information on testing Async actions.
-
-
-
 Testing containers (connected components)
 -----------------------------------------
 
 Please refer to [Redux](http://redux.js.org/docs/recipes/WritingTests.html#connected-components) docs for more information on testing containers.
+
+
+Testing effects
+---------------
+
+Effects can be tested separately as they are pure functions.
