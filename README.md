@@ -23,18 +23,19 @@ Setup your brunch config as follows
 // brunch-config.js
 
 exports.config = {
-  paths    : {
-    watched: ['app', 'test']
-  },
   files    : {
     javascripts: {
       joinTo: {
-        'javascripts/vendor.js': /^(?!app|test)/,
-        'javascripts/app.js'   : /^app/,
-        'test.js'              : /^test/
+        'javascripts/vendor.js': /^(?!app)/,
+        'javascripts/app.js'   : /^app/
       },
     },
     stylesheets: {joinTo: 'stylesheets/style.css'}
+  },
+  conventions: {
+    ignored: [
+      /^test/
+    ],
   },
   plugins  : {
     babel: {presets: ['es2015', 'react']}
