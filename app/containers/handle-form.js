@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from "react-redux"
 import {PUSH} from 'redux-little-router'
 
-import {fetchTweets} from '../actions/handles'
+import {addHandle} from '../actions/handles'
 import HandleForm from '../components/handle-form'
 
 const mapStateToProps = (state) => {
@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onHandleSubmit: (handle) => {
-			dispatch(fetchTweets(handle))
+
+			dispatch(addHandle(handle))
 
 			dispatch({
 				type   : PUSH,

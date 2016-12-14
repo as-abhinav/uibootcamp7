@@ -1,8 +1,10 @@
-import {REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
+import {ADD_HANDLE, REQUEST_TWEETS, RECEIVE_TWEETS} from '../actions/handles'
+import {fetchTweets} from '../effects/handles'
+import {loop, Effects} from 'redux-loop'
 
 export default (state = [], action) => {
 	switch (action.type) {
-		case REQUEST_TWEETS:
+		case ADD_HANDLE:
 			let newState = state.map((handles) => handles)
 
 			newState.push({
@@ -13,6 +15,11 @@ export default (state = [], action) => {
 
 			return newState
 
+		case REQUEST_TWEETS:
+
+			return loop(
+				state, Effects.promise(fetchTweets, action.handle.name)
+			)
 
 		case RECEIVE_TWEETS:
 			return state.map((handle) => {
@@ -20,8 +27,9 @@ export default (state = [], action) => {
 					handle.data       = action.data
 					handle.isFetching = false
 				}
-				return handle;
+				return handle
 			})
+
 		default:
 			return state
 	}

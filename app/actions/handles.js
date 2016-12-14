@@ -1,5 +1,13 @@
 export const REQUEST_TWEETS = 'REQUEST_TWEETS'
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'
+export const ADD_HANDLE = 'ADD_HANDLE'
+
+export const addHandle = (handle) => {
+	return {
+		type  : ADD_HANDLE,
+		handle: handle
+	}
+}
 
 export const requestTweets = (handle) => {
 	return {
@@ -8,21 +16,10 @@ export const requestTweets = (handle) => {
 	}
 }
 
-let receiveTweets = (handle, data) => {
+export const receiveTweets = (handle, data) => {
 	return {
 		type  : RECEIVE_TWEETS,
 		data  : data,
 		handle: handle
-	}
-}
-
-export function fetchTweets(handle) {
-	return (dispatch) => {
-
-		dispatch(requestTweets(handle))
-
-		setTimeout(() => {
-			dispatch(receiveTweets(handle, [{name: 'tweet1'}, {name: 'tweet2'}]))
-		}, 2000)
 	}
 }
