@@ -18,7 +18,7 @@ export default (state = [], action) => {
 		case REQUEST_TWEETS:
 
 			return loop(
-				state, Effects.promise(fetchTweets, action.handle.name)
+				state, Effects.promise(fetchTweets, action.handle)
 			)
 
 		case RECEIVE_TWEETS:
