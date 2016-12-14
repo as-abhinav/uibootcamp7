@@ -9,7 +9,6 @@ import {Provider} from 'react-redux'
 import {routerForBrowser, RouterProvider} from 'redux-little-router'
 import routes from './routes'
 
-
 const {
 	      routerEnhancer,
 	      routerMiddleware
@@ -23,19 +22,11 @@ const store = createStore(
 )
 
 
-const load = () => {
-	ReactDOM.render(
-		<Provider store={store}>
-			<RouterProvider store={store}>
-				<App />
-			</RouterProvider>
-		</Provider>
-		, document.querySelector('#app')
-	)
-}
-
-if (document.readyState !== 'complete') {
-	document.addEventListener('DOMContentLoaded', load)
-} else {
-	load()
-}
+ReactDOM.render(
+	<Provider store={store}>
+		<RouterProvider store={store}>
+			<App />
+		</RouterProvider>
+	</Provider>
+	, document.querySelector('#app')
+)
