@@ -38,12 +38,14 @@
                     <li>Gulp</li>
                     <li>Webpack</li>
                     <li>Babel</li>
-                    <li>Eslint</li>
                     <li>Some ES2015 Features</li>
                 </ul>
               </section>
 
               <section>
+                <section>
+                  <h2>Build Tools</h2>
+                </section>
                 <section>
                   <img src="./images/tools.png" />
                 </section>
@@ -111,29 +113,43 @@
                 <section>
                   <h2>Grunt</h2>
                   <ul>
-                    <li>Focus on configuration</li>
-                    <li>Does common tasks very well and very easily configured when going down a happy path</li>
+                    <li>Javascript task runner</li>
+                    <li>Focuses on configuration</li>
+                    <li>Does common tasks very well and very easily configurable when going down a happy path</li>
                     <li>Picks up and drops files from src and dest options so each task opens file readers/writers</li>
                   </ul>
                 </section>
                 <section>
                   <h3>GruntFile.js</h3>
                   <pre><code>grunt.initConfig({
-  clean: {
-    src: ['build/app.js', 'build/vendor.js']
-  },
-
-  copy: {
-    files: [{
-      src: 'build/app.js',
-      dest: 'build/dist/app.js'
-    }]
-  }
-  // ... other task configurations ...
+    sass: {
+        dist: {
+            files: [{
+                src: 'dev/*.scss',
+                dest: '.tmp/styles',
+                expand: true,
+                ext: '.css'
+            }]
+        }
+    },
+    autoprefixer: {
+        dist: {
+            files: [{
+                expand: true,
+                cwd: '.tmp/styles',
+                src: '{,*/}*.css',
+                dest: 'css/styles'
+            }]
+        }
+    },
+    watch: {
+        styles: {
+            files: ['dev/*.scss'],
+            tasks: ['sass:dist', 'autoprefixer:dist']
+        }
+    }
 });
-
-//Notice how plugins are registered before the build
-grunt.registerTask('build', ['clean', 'copy']);
+grunt.registerTask('default', ['styles', 'watch']);
                     </code></pre>
                   </section>
                   <section>
@@ -146,43 +162,29 @@ grunt.registerTask('build', ['clean', 'copy']);
                   </section>
                   <section>
                     <h2>Gulpfile.js</h2>
-                    <pre><code>var gulp = require('gulp');
-var sass = require('gulp-sass');
-var minifyCss = require('gulp-minify-css');
-
-gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
+                    <pre><code>gulp.task('sass', function () {
+  gulp.src('dev/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
+    .pipe(autoprefixer())
+    .pipe(gulp.dest('css/styles'));
+});
+gulp.task('default', function() {
+  gulp.run('sass');
+  gulp.watch('dev/*.scss', function() {
+    gulp.run('sass');
+  });
 });
                     </code></pre>
                   </section>
                   <section>
-                    <a href="https://docs.google.com/presentation/d/1dTZ7E-GiFVvkRQ2y3uJxvKU8zs1akhoqqh6XCXjtiv4/edit?ts=58205e82#slide=id.p54">An extended slide on gulp</a>
-                    <iframe src="https://docs.google.com/presentation/d/1Ka-Z2saeIW7mFeYfzSZ1Kh9dOJnP0euFfi7auJC_1-U/embed?start=false&loop=false&delayms=30000" frameborder="0" width="775" height="600" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-                  </section>
-                  <section>
-                    <h2>Script Loading</h2>
-<pre><code>var component = require('../component/component');</code></pre>
-                    <ul>
-                        <li>Allows for modular applications</li>
-                        <li>Allow us to pull in dependencies when we need them</li>
-                        <li>Can bundle scripts on a per page basis</li>
-                        <li>AMD Script loading with require was originally browser implementation of CommonJS Transport</li>
-                        <li>CommonJS and ES6 are the popular formats over AMD</li>
-                    </ul>
+                    <h2>Grunt vs Gulp</h2>
+                    <p>How they deal with their automation tasks on the inside</p>
+                    <p>Gulp uses Node streams while Grunt uses temp files.</p>
                   </section>
                   <section>
                       <h2>Browserify</h2>
-                      <span>Batteries not included solution</span>
                       <ul>
                           <li>Built to ship Node modules to browsers</li>
-                          <li>Big plugin environment to add things like watch, factor-bundles, deAMDify etc</li>
                           <li>Manages JS only</li>
                           <li>Uses transforms to modify code</li>
                           <li>provides pre and post bundle callbacks</li>
@@ -210,7 +212,6 @@ gulp.task('sass', function(done) {
                   </section>
                   <section>
                     <h2>Webpack</h2>
-                    <span>Batteries included solution</span>
                     <ul>
                         <li>Built to be a browser solution with nodejs support</li>
                         <li>Bundles all your assets and has loaders to make that easier - great for modularity</li>
@@ -243,7 +244,6 @@ gulp.task('sass', function(done) {
                   </section>
                   <section>
                     <h2>Brunch</h2>
-                    <span>You dont worry about 'Batteries'</span>
                     <ul>
                         <li>Our solution for this bootcamp</li>
                         <li>Small configs</li>
@@ -305,49 +305,21 @@ gulp.task('sass', function(done) {
                         <li>Used as a pre-build step when writing ESNext in the browser environments</li>
                     </ul>
                 </section>
-                <section>
-                  <section>
-                    <h2>Eslint <br /><img style="border:none!important;" height="100px" width="100px" src="http://eslint.org/img/logo.svg" /></h2>
-                    <ul>
-                        <li>Extendable code linting and style checking</li>
-                        <li>Every facet is pluggable</li>
-                        <li>Built on espree parser</li>
-                        <li>Lints using AST to evaluate patterns unlike some other linters</li>
-                        <li>Many great community plugins for frameworks like react</li>
-                    </ul>
-                  </section>
-                  <section>
-                    <h3>.eslintrc</h3>
-                    <pre><code>{
-  "rules": {
-      "eqeqeq": 0,
-      "curly": 2,
-      "quotes": [2, "double"]
-  }
-}
-                    </code></pre>
-                  </section>
-                </section>
+
                 <section>
                     <section>
                       <h2>ES2015</h2>
                       <img src="http://m.memegen.com/bvnpsq.jpg" />
                     </section>
-                    <section>
-                      <blockquote>
-                        Innovation debt is the cost that companies incur when they don't invest in their developers.
-                        <br />
-                        - Peter Bell
-                      </blockquote>
-                    </section>
+
                     <section>
                         <h2>Arrows =></h2>
                         <ul>
                             <li>Inspired by CoffeeScript</li>
-                            <li>Bind to outer this (have no context)</li>
-                            <li>Not newable</li>
-                            <li>No arguments psuedo array</li>
-                            <li>Always Anon</li>
+                            <li>Bound to outer this (have no context)</li>
+                            <li>Always Anonymous</li>
+                            <li>Cannot use new operator</li>
+                            <li>Don't have their own arguments object</li>
                         </ul>
                     </section>
                     <section>
@@ -513,10 +485,9 @@ let [x,...y] = 'abc'; // x='a'; y=['b', 'c'];
 import { member } from "module-name";
 import {member as alias } from "module-name";
 import { member1 , member2 } from "module-name";
-import "module-name" as name from 'simpler-module';
-import "module" from 'module';
 
-export function() { console.log('other module method') };
+export { myFunction }; // exports a function declared earlier
+export const foo = Math.sqrt(2); // exports a constant
 export default function() { console.log('default module method'); }
 </code></pre>
                 </section>
@@ -531,98 +502,88 @@ export function each(obj, iterator, context) {...};
 
 export { each as forEach };
 
+
 import _, { each } from 'lodash';
+
+import myFunction , { each } from 'lodash';
 </code></pre>
+
+                  <a href="https://codepen.io/rhushikeshapte/pen/pNGXja?editors=0010" target="_blank">CodePen link</a>
                 </section>
-            </section>
-            <section>
-                <h4>React Views</h4>
             </section>
             <section data-transition="fade">
                 <h2>Agenda</h2>
                 <ul>
+                    <li>History of JS Frameworks</li>
                     <li>React as a view layer</li>
                     <li>JSX</li>
                     <li>Mounting component to DOM</li>
                     <li>Simple Components</li>
-                    <li>Starting the application</li>
+                    <li>Props</li>
+                    <li>Passing the Props</li>
                 </ul>
             </section>
             <section>
                 <section>
-                    <h2>Why the <strong>^@#$%</strong> is there another js framework</h2>
+                  <h2>Evolution of <strong>JS</strong> Frameworks</h2>
+
                 </section>
                 <section>
-                    <h2>React</h2>
-                    <ul>
-                        <li>Small Modular Components</li>
-                        <li>Minimal API Surface Area</li>
-                        <li>Performant with JSDom</li>
-                        <li>Simply the view layer</li>
-                        <li>JSX can be strange at first</li>
-                        <li>Since it is just a view layer you must enforce good patterns</li>
-                    </ul>
+                  <h2>Vanilla JS</h2>
+                  <p>In the beginning, there was just JavaScript and almost everyone was afraid to use it because of the inconsistent DOM APIs across different browsers which resulted in lots of bugs.</p>
                 </section>
                 <section>
-                    <h2>Angular</h2>
-                    <ul class="ul-demo-l">
-                        <li>Directives are crazy powerful and declarative</li>
-                        <li>Filters are awesome</li>
-                        <li>Can be used modularly with some good insight. see Angular UI</li>
-                        <li>Great for prototyping</li>
-                    </ul>
-                    <ul class="ul-demo-r">
-                        <li>Two binding with Dirty Checks and Digest Cycle</li>
-                        <li>Technically inperformant but not noticeable 99% of the time</li>
-                        <li>Code under the head is insanly complex argueable over engineered.</li>
-                        <li>Actions automagically trigger digest cycles</li>
-                        <li>Doesn't feel like writing JS as huge API surface area</li>
-                        <li>Docs still suck</li>
-                    </ul>
+                  <h2>Jquery</h2>
+                  <p>DOM manipulation and AJAX calls became less risky by abstracting away the differences into one consistent API</p>
                 </section>
                 <section>
-                    <h2>Ember</h2>
-                    <ul class="ul-demo-l">
-                        <li>Efficient data binding with accessors</li>
-                        <li>Less gotchas than Angular</li>
-                        <li>Computed Properties</li>
-                        <li>Amazing docs</li>
-                        <li>Great for prototyping</li>
-                    </ul>
-                    <ul class="ul-demo-r">
-                        <li>Very heavy and opinionated</li>
-                        <li>Syntax isn't as clean with accessors</li>
-                        <li>Highest barrier to entry</li>
-                    </ul>
+                  <p>1<sup>st</sup> Generation</p>
+                  <br>
+                  <br>
+                  <h2>Backbone JS</h2>
+                  <p>Backbone arrived and provided organization to that messy jQuery code</p>
+                  <ul>
+                    <li>Spine         - clone of backbone</li>
+                    <li>JavaScriptMVC - clone of backbone</li>
+                    <li>Knockout</li>
+                  </ul>
                 </section>
                 <section>
-                    <h2>Backbone</h2>
-                    <ul class="ul-demo-l">
-                        <li>Binding with accessors but requires setup</li>
-                        <li>0 assumptions are made</li>
-                        <li>Extendable and versatile</li>
-                        <li>Marionette is &hearts;</li>
-                    </ul>
-                    <ul class="ul-demo-r">
-                        <li>Less for free but it stays out of your way after</li>
-                        <li>Backbone is actually pretty great for what it does so ... </li>
-                    </ul>
+                  <p>2<sup>nd</sup> Generation</p>
+                  <br>
+                  <br>
+                  <h2>Angular JS</h2>
+                  <p>AngularJS emerged with all the needed framework pieces in one box: data binding, routing, templating, persistence as well as a compelling testing story and a more declarative syntax.</p>
                 </section>
                 <section>
-                    <h3>Use what makes sense and enables you to be productive!</h3>
-                    <img src="http://i.imgur.com/z9zn3F7.jpg" />
+                  <p>2<sup>nd</sup> Generation</p>
+                  <br>
+                  <h2>Ember JS</h2>
+                  <p> Ember was also built with similar features to AngularJS but a stronger router and more emphasis on URLs and not breaking the back button.</p>
+                  <ul>
+                    <li>Can Js - slimmed down version of JavaScriptMVC with data binding support</li>
+                    <li>Durandal - Merged with Angular</li>
+                    <li>Meteor JS</li>
+                  </ul>
                 </section>
                 <section>
-                  <div>Great Comparison Article here</div>
-                  <a href="http://derickbailey.com/2015/08/26/building-a-component-based-web-ui-with-modern-javascript-frameworks/">
-                    http://derickbailey.com/2015/08/26/building-a-component-based-web-ui-with-modern-javascript-frameworks
-                  </a>
+                  <p>3<sup>rd</sup> Generation</p>
+                  <ul>
+                    <li>React JS</li>
+                    <li>Vue JS</li>
+                    <li>Polymer JS</li>
+                  </ul>
                 </section>
             </section>
             <section>
                 <section>
+                  <h2>React</h2>
+                  <h4>Simply the view layer</h4>
+                </section>
+                <section>
                     <h2>React</h2>
                     <h4>according to Facebook</h4>
+                    <p>A JAVASCRIPT LIBRARY FOR BUILDING USER INTERFACES</p>
                     <ul>
                         <li>It's simple</li>
                         <li>It's declarative</li>
@@ -643,41 +604,111 @@ import _, { each } from 'lodash';
                 </section>
             </section>
             <section>
+              <section>
+                <h2>Mount Component</h2>
+                <pre>
+                <code>import React from 'react'
+import ReactDOM from 'react-dom'
+import app from './components/App';
+
+ReactDOM.render(<App></App>, document.getElementById('root'));
+</code></pre>
+                <a href="http://codepen.io/krunalp/pen/pNGLWO?editors=1000" target="_blank">Go to codepen</a>
+              </section>
+              <section>
                 <h2>JSX</h2>
-                <span>Render markup in your code</span>
+                <span>XML like syntax</span>
                 <ul>
-                    <li>This makes sense with small modular components</li>
-                    <li>Babel can transpile JSX into plain old javascript</li>
-                    <li>You can very easily write your javascript logic alongside your presentation layer</li>
+                  <li>Render markup in your js code</li>
+                  <li>This makes sense with small modular components</li>
+                  <li>Babel can transpile JSX into plain old javascript</li>
+                  <li>You can very easily write your javascript logic alongside your presentation layer</li>
                 </ul>
+              </section>
             </section>
             <section>
-                <h2>Mounting a component</h2>
-<pre><code>
-    import React from 'react';
-import app from './components/App/App';
-
-React.render(<App></App>, document.getElementById('app'));
-</code></pre>
-                </section>
-                <section>
-                    <h2>Simple Component</h2>
-        <pre><code>import React from 'react';
-import './_Hai.scss';
-
-export default class Hai extends React.Component {
+              <h2>React vs React DOM</h2>
+              <ul>
+                <li>React and ReactDOM were only recently split into two different libraries</li>
+                <li>ReactDOM is the glue between React and the DOM</li>
+                <li>you will only use it for one single thing: mounting with ReactDOM.render()</li>
+                <li>ReactDOM.findDOMNode() which you can use to gain direct access to a DOM element.</li>
+                <li>If your app is "isomorphic", ReactDOM.renderToString() in your back-end code.</li>
+                <li>You use React to define and create your elements, for lifecycle hooks, etc</li>
+              </ul>
+            </section>
+            <section>
+              <section>
+                <h2>What are PROPS?</h2>
+                <img src="./images/props.png" alt="passing props example" height="500" width="400" />
+              </section>
+              <section>
+                <h2>Where is the code?</h2>
+                <div class="fragment fade-in">
+                  <h4>supply props</h4>
+                  <pre>
+                        <code>
+  < Welcome name="Sara" />
+                        </code>
+                      </pre>
+                </div>
+                <div class="fragment fade-in">
+                  <h4>access props</h4>
+                  <pre>
+                      <code>
+class Welcome extends React.Component {
   render() {
-    let name = 'React';
-    return (
-      <div className="my-super-awesome-react-app">
-        <span>Hello Margret, It's me,</span>
-        <span>{name}</span>
-      </div>
-    );
+    return <h1>Hello, {this.props.name}</h1>;
   }
 }
-</code></pre>
-              <p><a href="./day2.html">Next day</a></p>
+                      </code>
+                    </pre>
+                </div>
+              </section>
+              <section>
+                <h2>How will that look?</h2>
+                <div class="fragment fade-in">
+                  <h4>Like this!</h4>
+                  <h1>Hello, Sara</h1>
+                </div>
+              </section>
+              <section>
+                <h2>Want to make something a little more complicated?</h2>
+                <div class="fragment fade-in">
+                  <h4>Try making it on your own. Here's a <a href="http://codepen.io/wolverine602/pen/MbaEwx">CodePen link</a> for your reference</h4>
+                </div>
+                <div class="fragment fade-in">
+                  <h4>Let's try extracting components out of this</h4>
+                </div>
+              </section>
+            </section>
+            <section>
+              <section>
+                <h2>Passing Props</h2>
+                <img src="./images/passing_props.jpg" alt="passing props" height="500" width="400" />
+              </section>
+              <section>
+                <h3>Complex component structure</h2>
+                  <img src="./images/passing_props_example_1.png" alt="passing props example" height="500" width="400" />
+              </section>
+              <section>
+                <h3>Passing Props all the way down</h2>
+                  <img src="./images/passing_props_example_2.png" alt="passing props example" height="500" width="400" />
+              </section>
+              <section>
+                <h3>Not so simple is it?</h2>
+                  <img src="./images/passing_props_example_3.png" alt="passing props example" height="500" width="400" />
+              </section>
+
+              <section>
+                <img src="./images/Artboard%202.png" alt="passing props example" height="500" width="400" />
+              </section>
+              <section>
+                <img src="./images/Artboard%201.png" alt="passing props example" height="500" width="400" />
+                <div>
+                  <a href="http://codepen.io/krunalp/pen/JbxaKb?editors=0010" target="_blank">Link to Codepen</a>
+                </div>
+              </section>
             </section>
         </div>
     </div>
