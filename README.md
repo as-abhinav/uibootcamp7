@@ -52,8 +52,6 @@ Refer to `app/components` directory.
 
 **`navbar`**: Holds application title and a button to add more handles
 
-**`deck-list-wrap`**: Wraps all the deck-list components
-
 **`deck-list`**: Column like boxes which display tweets of a respective handle
 
 **`tweet-item`**: Displays tweet information

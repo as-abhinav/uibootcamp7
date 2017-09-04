@@ -1,13 +1,15 @@
 import React from 'react'
 
-import DeckListWrap from '../components/deck-list-wrap'
+import DeckList from '../components/deck-list'
 
 export default class Deck extends React.Component {
 	render() {
 		return (
 			<div id="deck-page">
 				<div className="deck-wrap clearfix">
-					<DeckListWrap />
+					<DeckList/>
+					<DeckList/>
+					<DeckList/>
 				</div>
 			</div>
 		)
