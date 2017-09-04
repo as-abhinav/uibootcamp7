@@ -27,7 +27,7 @@ describe('Handles reducer', () => {
 	})
 
 
-	it('should return correct state on calling ADD_HANDLE action', () => {
+	it('should return correct state on calling REQUEST_TWEETS action', () => {
 
 		const action   = {
 			      type  : REQUEST_TWEETS,
