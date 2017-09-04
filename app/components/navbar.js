@@ -1,5 +1,5 @@
 import React from 'react'
-import {Fragment} from 'redux-little-router'
+import {Fragment, Link} from 'redux-little-router'
 
 export default class Deck extends React.Component {
 	render() {
@@ -7,7 +7,7 @@ export default class Deck extends React.Component {
 			<nav className="navbar navbar-inverse navbar-fixed-top">
 				<div className="container">
 					<div className="navbar-header">
-						<a className="navbar-brand" href="/">Tweet Deck Clone</a>
+						<Link className="navbar-brand" href="/welcome">Tweet Deck Clone</Link>
 					</div>
 					<div className="navbar-right">
 						<Fragment forRoute="/deck">
