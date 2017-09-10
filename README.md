@@ -1,6 +1,6 @@
-#UI Bootcamp  
+# UI Bootcamp
 
-#Aim
+## Aim
 Create a Tweet deck clone [like this](https://tweetdeck.twitter.com) while going through basic concepts of building single page applications  
 
 ### Tech Stack
