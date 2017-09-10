@@ -2,7 +2,7 @@
 
 Install Redux
 ```js
-npm install redux react-redux
+npm install redux@3.6.0 react-redux@4.4.6 --save --save-exact
 ```
 
 Import required modules
