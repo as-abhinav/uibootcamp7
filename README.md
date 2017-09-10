@@ -3,7 +3,7 @@
 Install npm modules
 
 ```js
-npm install redux-little-router --save
+npm install redux-little-router@12.0.0 --save --save-exact
 ```
 
 Tech Import required modules
