@@ -16,7 +16,7 @@ Restructuring `app.js`
 
 ```js
 import React from 'react'
-import {RelativeFragment, Fragment} from "redux-little-router"
+import {Fragment} from "redux-little-router"
 
 import Navbar from '../components/navbar'
 import Welcome from '../pages/welcome'
