@@ -14,7 +14,7 @@ Lets start with setting up the test framework.
 Install the following packages
 
 ```sh
-npm install chai mocha --save-dev 
+npm install chai@3.5.0 mocha@3.1.2 --save-dev --save-exact
 ```
 
 Setup your brunch config as follows
@@ -56,8 +56,6 @@ In `.mocha.opts` file add the following commands:
  
 ```sh
 --compilers js:babel-core/register
---require jsdom-global/register
-
 ```
 
 
@@ -161,14 +159,21 @@ Testing react component needs an actual DOM or anything that emulates the DOM.
 So we will be using a mocha helper in this case
 
 ```sh
-npm install jsdom jsdom-global --save-dev
+npm install jsdom@9.8.3 jsdom-global@2.1.0 --save-dev  --save-exact
+```
+
+In `.mocha.opts` file add the following commands:
+ 
+```sh
+--compilers js:babel-core/register
+--require jsdom-global/register
 ```
 
 
-Also for testing React components we will be using React testing utilities
+Also, for testing React components we will be using React testing utilities
 
 ```sh
-npm install react-addon-test-utils enzyme --save-dev
+npm install react-addon-test-utils@15.4.1 enzyme@2.5.1 --save-dev  --save-exact
 ```
 
 Create a `components.handle-form.spec.js` in your `test` directory
