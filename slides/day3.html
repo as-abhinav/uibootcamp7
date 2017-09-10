@@ -1,239 +1,228 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>ReactJS Bootcamp</title>
-        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-        <meta name="author" content="Westin">
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-        <link rel="stylesheet" href="./lib/css/reveal.css">
-        <link rel="stylesheet" href="./lib/css/theme/sky.css" id="theme">
-        <!-- Code syntax highlighting -->
-        <link rel="stylesheet" href="./lib/lib/css/zenburn.css">
-        <!-- Printing and PDF exports -->
-        <script>
-          var link = document.createElement( 'link' );
-          link.rel = 'stylesheet';
-          link.type = 'text/css';
-          link.href = window.location.search.match( /print-pdf/gi ) ? './lib/css/print/pdf.css' : './lib/css/print/paper.css';
-          document.getElementsByTagName( 'head' )[0].appendChild( link );
-        </script>
-        <!--[if lt IE 9]>
-        <script src="./lib/lib/js/html5shiv.js"></script>
-        <![endif]-->
-    </head>
-    <body>
-        <div class="reveal">
-            <!-- Any section element inside of this container is displayed as a slide -->
-            <div class="slides">
-                <section>
-                    <h4>Welcome to Day 3 of ReactJS Bootcamp</h4>
-                </section>
-                <section data-transition="fade">
-                    <h2>Agenda</h2>
-                    <h4>State management in single page application</h4>
-                </section>
-                <section data-transition="fade">
-                    <h2>Patterns</h2>
-                    <ul>
-                        <li>No framework (imperative)</li>
-                        <li>Framework based pattern</li>
-                    </ul>
-                </section>
-                <section data-transition="fade">
-                    <h4>No framework pattern (imperative)</h4>
-                    <ul>
-                        <li>Do it yourself</li>
-                    </ul>
-                </section>
-                <section data-transition="fade">
-                    <h4>Framework based pattern</h4>
-                    <ul>
-                        <li>BackboneJS</li>
-                        <li>AngularJS</li>
-                        <li>Flux</li>
-                    </ul>
-                </section>
+<head>
+	<meta charset="utf-8">
+	<title>UI Bootcamp</title>
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Westin">
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+	<link rel="stylesheet" href="./lib/css/reveal.css">
+	<link rel="stylesheet" href="./lib/css/theme/league.css" id="theme">
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="./lib/lib/css/androidstudio.css">
+	<!-- Printing and PDF exports -->
+	<script>
+		var link  = document.createElement('link');
+		link.rel  = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? './lib/css/print/pdf.css' : './lib/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+	<!--[if lt IE 9]>
+	<script src="./lib/lib/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="reveal">
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		<section>
+			<h4>Welcome to Day 3</h4>
+		</section>
+		<section data-transition="fade">
+			<h2>Agenda</h2>
+			<h4>State management in single page application</h4>
+		</section>
+		<section data-transition="fade">
+			<h2>Patterns</h2>
+			<ul>
+				<li>No framework (imperative)</li>
+				<li>Framework based pattern</li>
+			</ul>
+		</section>
+		<section data-transition="fade">
+			<h4>No framework pattern (imperative)</h4>
+			<ul>
+				<li>Do it yourself</li>
+			</ul>
+		</section>
+		<section data-transition="fade">
+			<h4>Framework based pattern</h4>
+			<ul>
+				<li>BackboneJS</li>
+				<li>AngularJS</li>
+				<li>Flux</li>
+			</ul>
+		</section>
 
-                <section data-transition="fade">
-                    <h4>Backbone JS</h4>
-                    <div>
-                        <p>Using backbone collections</p>
-                        <img src="https://addyosmani.com/backbone-fundamentals/img/backbone_mvc.png" width="1000"/>
-                        <a href="https://github.com/tastejs/todomvc/tree/gh-pages/examples/backbone" target="_blank">Example</a>
-                    </div>
-                </section>
+		<section data-transition="fade">
+			<h4>Backbone JS</h4>
+			<div>
+				<p>Using backbone collections</p>
+				<img src="https://addyosmani.com/backbone-fundamentals/img/backbone_mvc.png" width="1000"/>
+				<a href="https://github.com/tastejs/todomvc/tree/gh-pages/examples/backbone" target="_blank">Example</a>
+			</div>
+		</section>
 
-                <section data-transition="fade">
-                    <h4>Angular JS</h4>
-                    <ul>
-                        <li>Using $rootScope</li>
-                        <li>Using angular factory</li>
-                    </ul>
-                    <div>
-                        <img src="http://www.sitesbay.com/angularjs/images/angularjs-features.png" width="700"/>
-                    </div>
-                    <div>
-                        <a href="https://github.com/tastejs/todomvc/tree/gh-pages/examples/angularjs" target="_blank">Example</a>
-                    </div>
-                </section>
+		<section data-transition="fade">
+			<h4>Angular JS</h4>
+			<ul>
+				<li>Using $rootScope</li>
+				<li>Using angular factory</li>
+			</ul>
+			<div>
+				<img src="http://www.sitesbay.com/angularjs/images/angularjs-features.png" width="700"/>
+			</div>
+			<div>
+				<a href="https://github.com/tastejs/todomvc/tree/gh-pages/examples/angularjs" target="_blank">Example</a>
+			</div>
+		</section>
 
-                <section data-transition="fade">
-                    <section>
-                        <h2>Flux</h2>
-                        <img src="./images/flux.png" alt="flux" width="700" />
-                    </section>
-                    <section>
-                        <div>
-                            Flux is really just a fancy term for pub/sub architecture,
-                            i.e. data always flows one way through the application and
-                            it is picked up along the way by various subscribers (stores)
-                            who are listening to it.
-                        </div>
-                    </section>
-                    <section>
-                        <h2>Why Flux</h2>
-                        <ul>
-                            <li>State is messy</li>
-                            <li>Unidirectional data makes for easy debugging</li>
-                            <li>Composable components favor reuse</li>
-                            <li>Stores as a single domain also simplifies debugging</li>
-                        </ul>
-                    </section>
-                </section>
-                <section>
-                    <h2>Dispatcher</h2>
-                    <ul>
-                        <li>*SINGLE* messaging hub in the application</li>
-                        <li>Registry of callbacks</li>
-                        <li>Has no logic</li>
-                        <li>Dispatcher recieves actions and fires corresponding callback</li>
-                        <li>Can manage dependencies between stores</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Stores</h2>
-                    <ul>
-                        <li>Contain the domain logic</li>
-                        <li>More than just a model</li>
-                        <li>All stores get the callback from the dispatcher and handle in a case statement</li>
-                        <li>Changes made through dispatcher -> Store's case statement on action type -> Data update -> Fire change event</li>
-                        <li>Views can query the store but they are treated as immutable from view's perspective</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Actions</h2>
-                    <ul>
-                        <li>Views can start the communication intents via actions</li>
-                        <li>Actions are sent through the dispatcher and sent out to the stores</li>
-                        <li>We have had luck with past tense but it doesn't matter as long as you are consistent</li>
-                        <li>Try to keep actions generic where possible</li>
-                    </ul>
-                </section>
-                <section>
-                    <section>
-                        <h2>Redux</h2>
-                        <ul>
-                            <li>Redux is a framework that controls states in a JavaScript app.</li>
-                            <li>According to the official site:
-                                <p><em>Redux is a predictable state container for JavaScript apps.</em></p>
-                            </li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Why Redux</h2>
-                        <img src="./images/redux.png" alt="Redux" width="200px" style="border:0;box-shadow: none;" />
-                    </section>
-                    <section>
-                        <h2>Advantages</h2>
-                        <ul>
-                            <li>"A predictable state container"</li>
-                            <li>Single source of truth</li>
-                            <li>Portable code</li>
-                            <li>Separate presentation layer from logic and data</li>
-                            <li>You can specify the behavior of your app before even starting to write the UI.</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Basic principle</h2>
-                        <p>
-                            <pre><code>
+		<section data-transition="fade">
+			<section>
+				<h2>Flux</h2>
+				<img src="./images/flux.png" alt="flux" width="700"/>
+			</section>
+			<section>
+				<div>
+					Flux is really just a fancy term for pub/sub architecture,
+					i.e. data always flows one way through the application and
+					it is picked up along the way by various subscribers (stores)
+					who are listening to it.
+				</div>
+			</section>
+			<section>
+				<h2>Why Flux</h2>
+				<ul>
+					<li>State is messy</li>
+					<li>Unidirectional data makes for easy debugging</li>
+				</ul>
+			</section>
+		</section>
+		<section>
+			<h2>View</h2>
+			<ul>
+				<li>Reflects current state of the application on DOM</li>
+				<li>Fires actions on external or user input</li>
+				<li>Listens to store for any change in the application state</li>
+			</ul>
+		</section>
+		<section>
+			<h2>Action</h2>
+			<ul>
+				<li>Consists of a unique identifier which defines that action</li>
+				<li>Action carries payload, if needed</li>
+			</ul>
+		</section>
+		<section>
+			<h2>Store</h2>
+			<ul>
+				<li>Holds state of the application</li>
+				<li>More than just a model</li>
+				<li>Triggers itself when there is any change in the state of the application.</li>
+			</ul>
+		</section>
+		<section>
+			<section>
+				<h2>Redux</h2>
+				<img src="./images/redux-logo.png" alt="Redux" width="200px" style="border:0;box-shadow: none;background: white;padding: 15px;border-radius: 10px;"/>
+				<p><em>Redux is a predictable state container for JavaScript apps.</em></p>
+			</section>
+			<section>
+				<h2>Why Redux?</h2>
+			</section>
+			<section>
+				<h2>Advantages</h2>
+				<ul>
+					<li>"A predictable state container"</li>
+					<li>Single source of truth</li>
+					<li>Portable code</li>
+					<li>Separate presentation layer from logic and data</li>
+					<li>You can specify the behavior of your app before even starting to write the UI.</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Basic principle</h2>
+				<p>
+				<pre><code>
     (previousState, action) => newState
 
 </code></pre>
-                        </p>
-                    </section>
-                    <section>
-                        <h2>Redux way of working</h2>
-                        <p>
-                            <img src="./images/redux-life.png" alt="Redux">
-                        </p>
-                    </section>
-                </section>
-                <section>
-                    <section>
-                        <h2>Testing React/Redux using Brunch</h2>
-                    </section>
-                    <section>
-                        <h3>Agenda</h3>
-                        <p>We will learn how to setup test framework in <code>brunch</code> and test the following:</p>
-                        <ul>
-                            <li>Actions</li>
-                            <li>Async Actions</li>
-                            <li>Reducers</li>
-                            <li>Components</li>
-                            <li>Containers</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <p>First we install <code>chai</code> and <code>mocha</code>:
-                        <pre><code>npm install chai mocha --save-dev</code></pre>
-                    </section>
-                    <!-- <section>
-                        <h3>brunch config</h3>
-                        <pre><code>exports.config = {
-  paths    : {
-    watched: ['app', 'test']
-  },
-  files    : {
-    javascripts: {
-      joinTo: {
-        'javascripts/vendor.js': /^(?!app|test)/,
-        'javascripts/app.js'   : /^app/,
-        'test.js'              : /^test/
-      },
-    },
-    stylesheets: {joinTo: 'stylesheets/style.css'}
-  },
-  plugins  : {
-    babel: {presets: ['es2015', 'react']}
-  },
-  server   : {
-    port: 5555
-  }
+				</p>
+			</section>
+			<section>
+				<h2>Redux way of working</h2>
+				<p>
+					<img src="./images/redux-life.png" alt="Redux">
+				</p>
+			</section>
+		</section>
+		<section>
+			<section>
+				<h2>Testing React/Redux using Brunch</h2>
+			</section>
+			<section>
+				<h3>Agenda</h3>
+				<p>We will learn how to setup test framework in <code>brunch</code> and test the following:</p>
+				<ul>
+					<li>Actions</li>
+					<li>Async Actions</li>
+					<li>Reducers</li>
+					<li>Components</li>
+					<li>Containers</li>
+				</ul>
+			</section>
+			<section>
+				<p>First we install <code>chai</code> and <code>mocha</code>:
+				<pre><code>npm install chai mocha --save-dev</code></pre>
+			</section>
+			<!-- <section>
+					<h3>brunch config</h3>
+					<pre><code>exports.config = {
+paths    : {
+watched: ['app', 'test']
+},
+files    : {
+javascripts: {
+joinTo: {
+'javascripts/vendor.js': /^(?!app|test)/,
+'javascripts/app.js'   : /^app/,
+'test.js'              : /^test/
+},
+},
+stylesheets: {joinTo: 'stylesheets/style.css'}
+},
+plugins  : {
+babel: {presets: ['es2015', 'react']}
+},
+server   : {
+port: 5555
+}
 }</code></pre>
-                    </section> -->
-                    <section>
-                        <h3>Test config for mocha</h3>
-                        <ul>
-                            <li>Create a <code>test</code> directory.</li>
-                            <li>Add a <code>.mocha.opts</code> file in the test directory.</li>
-                            <li>In .mocha.opts file add the following commands:
-                                <pre><code>--compilers js:babel-core/register
+			</section> -->
+			<section>
+				<h3>Test config for mocha</h3>
+				<ul>
+					<li>Create a <code>test</code> directory.</li>
+					<li>Add a <code>.mocha.opts</code> file in the test directory.</li>
+					<li>In .mocha.opts file add the following commands:
+						<pre><code>--compilers js:babel-core/register
 --require jsdom-global/register</code></pre>
-                            </li>
-                            <li>Add a .babelrc file at the root level
-                                <pre><code>{
+					</li>
+					<li>Add a .babelrc file at the root level
+						<pre><code>{
     "presets": ["es2015", "react"]
-}</code></pre></li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h3>Testing Actions:</h3>
-                        <p>actions.handles.spec.js in test dir</p>
-                        <pre><code>// test/actions.handles.spec.js
+}</code></pre>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h3>Testing Actions:</h3>
+				<p>actions.handles.spec.js in test dir</p>
+				<pre><code>// test/actions.handles.spec.js
 
 import {expect} from 'chai'
 import {requestTweets} from 'actions/handles'
@@ -246,11 +235,11 @@ describe('Handle actions', () => {
     expect(action.handle).to.be.equal('test')
   })
 })</code></pre>
-                    </section>
-                    <section>
-                        <h3>Testing Reducers:</h3>
-                        <p>reducers.handles.spec.js in test dir</p>
-                        <pre><code>// test/reducers.handles.spec.js
+			</section>
+			<section>
+				<h3>Testing Reducers:</h3>
+				<p>reducers.handles.spec.js in test dir</p>
+				<pre><code>// test/reducers.handles.spec.js
 
 import {expect} from 'chai'
 import {REQUEST_TWEETS} from 'actions/handles'
@@ -278,19 +267,23 @@ describe('Handles reducer', () => {
     expect(newState[0].data instanceof Array).to.equal(true)
   })
 })</code></pre>
-                    </section>
-                    <section>
-                        <h3>Testing Components:</h3>
-                        <ul>
-                            <li>So we will be using a mocha helper in this case</li>
-                            <li><pre><code>npm install jsdom jsdom-global --save-dev</code></pre></li>
-                            <li>Also for testing React components we will be using React testing utilities</li>
-                            <li><pre><code>npm install react-addon-test-utils enzyme --save-dev</code></pre></li>
-                        </ul>
-                    </section>
-                    <section>
-                        <p>Create a components.handle-form.spec.js in your test directory</p>
-                        <pre><code>// test/components.handle-form.spec.js
+			</section>
+			<section>
+				<h3>Testing Components:</h3>
+				<ul>
+					<li>So we will be using a mocha helper in this case</li>
+					<li>
+						<pre><code>npm install jsdom jsdom-global --save-dev</code></pre>
+					</li>
+					<li>Also for testing React components we will be using React testing utilities</li>
+					<li>
+						<pre><code>npm install react-addon-test-utils enzyme --save-dev</code></pre>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<p>Create a components.handle-form.spec.js in your test directory</p>
+				<pre><code>// test/components.handle-form.spec.js
 
 import {expect} from 'chai'
 
@@ -305,45 +298,26 @@ describe('Components.HandleForm', () => {
     expect(node.find('.handle-form')).to.have.length(1)
   })
 })</code></pre>
-                    </section>
-                    <section>
-                        <h3>Testing Async Actions:</h3>
-                        <p>Please refer to <a href="http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators" target="newRedux">Redux docs</a> for more information on testing Async actions.</p>
-                    </section>
-                    <section>
-                        <h3>Testing containers</h3>
-                        <h4>(connected components)</h4>
-                        <p>Please refer to <a href="http://redux.js.org/docs/recipes/WritingTests.html#connected-components" target="newRedux">Redux docs</a> for more information on testing Async actions.</p>
-                    </section>
-                </section>
-                <section>
-                    <h2>Recap expectations</h2>
-                    <ul>
-                        <li class="fragment highlight-blue">Why react is so popular?</li>
-                        <li class="fragment highlight-blue">Min libraries to get a UI app running/development.</li>
-                        <li class="fragment highlight-blue">Comparisons between react and angular.</li>
-                        <li class="fragment highlight-blue">Testing using React.</li>
-                        <li class="fragment highlight-blue">Debugging a UI application.</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Q&A</h2>
-                    <ul style="list-style: none; text-align: center">
-                        <li>Swapneel Desai</li>
-                        <li>Ashish Pundalik</li>
-                        <li>Abhinav Sharma</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Feedback</h2>
-                </section>
-            </div>
-        </div>
-        <script src="./lib/lib/js/head.min.js"></script>
-        <script src="./lib/js/reveal.js"></script>
-        <script src="./js/app.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" charset="utf-8">
-            Reveal.initialize(revealConfig);
-        </script>
-    </body>
+			</section>
+			<section>
+				<h3>Testing Async Actions:</h3>
+				<p>Please refer to <a href="http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators"
+				                      target="newRedux">Redux docs</a> for more information on testing Async actions.</p>
+			</section>
+			<section>
+				<h3>Testing containers</h3>
+				<h4>(connected components)</h4>
+				<p>Please refer to <a href="http://redux.js.org/docs/recipes/WritingTests.html#connected-components"
+				                      target="newRedux">Redux docs</a> for more information on testing Async actions.</p>
+			</section>
+		</section>
+	</div>
+</div>
+<script src="./lib/lib/js/head.min.js"></script>
+<script src="./lib/js/reveal.js"></script>
+<script src="./js/app.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	Reveal.initialize(revealConfig);
+</script>
+</body>
 </html>
