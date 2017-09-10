@@ -5,7 +5,7 @@ For async actions we will be needing a redux middleware library called as `redux
 Install `redux-loop` in your app
 
 ```sh
-npm install --save redux-loop
+npm install --save redux-loop@2.2.2 --save-exact
 ```
 
 
