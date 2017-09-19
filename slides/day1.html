@@ -464,11 +464,11 @@ export default function() { console.log('default module method'); }
 				<h2>Named and default exports</h2>
 				<span>Default is really just another named export</span>
 				<pre><code>
-export default function (obj) {...};
+
+import defaultExport, { specificExport } from 'module';
 
 import _, { each } from 'lodash';
 
-import myFunction , { each } from 'lodash';
 </code></pre>
 			</section>
 			<section>
