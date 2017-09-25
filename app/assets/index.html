@@ -16,5 +16,9 @@
   <script src="/javascripts/vendor.js"></script>
   <script src="/javascripts/app.js"></script>
   <script>require('initialize')</script>
+  <script>
+    var randomNumber = Math.floor(Math.random() * 5) + 1
+	  document.querySelector('body').style.backgroundImage = "url('http://localhost:5555/images/backgrounds/" + randomNumber + ".jpg')"
+  </script>
 </body>
 </html>
