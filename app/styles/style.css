@@ -3,7 +3,8 @@ html {
 }
 
 body {
-	background:url('https://unsplash.it/1920/1080?random&blur') no-repeat transparent;
+	background-repeat: no-repeat;
+	background-color: transparent;
 	padding-top:50px;
 	background-size: cover;
 }
@@ -23,6 +24,7 @@ body {
 
 .handle-form h1 {
 	text-align: center;
+	color: #fff;
 }
 
 .handle-form input[type='text'] {
