@@ -159,35 +159,6 @@ gulp.task('default', function() {
 				<p>Gulp uses Node streams while Grunt uses temp files.</p>
 			</section>
 			<section>
-				<h2>Browserify</h2>
-				<ul>
-					<li>Built to ship Node modules to browsers</li>
-					<li>Manages JS only</li>
-					<li>Uses transforms to modify code</li>
-					<li>provides pre and post bundle callbacks</li>
-					<li>Minimal config</li>
-				</ul>
-			</section>
-			<section>
-				<h3>tasks/browserify.js</h3>
-				<pre><code>module.exports = function(grunt, options) {
-  return {
-    dist: {
-      src: defaults.src,
-      dest: defaults.dest,
-      options: {
-        watch: false,
-        browserifyOptions: {
-          debug: false, //no sourcemaps
-          transform: ['reactify', 'uglifyify']
-        }
-      }
-    }
-  };
-};
-                    </code></pre>
-			</section>
-			<section>
 				<h2>Webpack</h2>
 				<ul>
 					<li>Built to be a browser solution with nodejs support</li>
@@ -279,78 +250,73 @@ gulp.task('default', function() {
 				</ul>
 			</section>
 			<section>
-				<h1>Code</h1>
+				<h2>Arrows =></h2>
+				<h4>Reduced expression body</h4>
 				<pre><code>
-//Arrows
-var evens = numbers.map(num => num % 2 === 0);
-nums.map((x) => x * 2);
-//or as a statement body
-var specialNums = numbers.map(num => {
-  return doSomething(num);
+//ES5
+var evens = numbers.map(function(num) {
+	return num % 2 === 0;
 });
-// Lexical this
-var person = {
-  _name: "Westin",
-  _friends: ["Not Justin", "Doug", "Brendan", "Igor"],
-  printFriends() {
-    this._friends.forEach(f =>
-      console.log(`${this._name} knows ${f}`));
-  }
-}
+
+//ES6
+var evens = numbers.map(num => num % 2 === 0);
+
 </code></pre>
+			</section>
+			<section>
+				<h2>Arrows =></h2>
+				<h4>Lexical This</h4>
+				<pre><code>var person = {
+  _name: "Westin",
+  _friends: ["Not Justin", "Doug", "Brendan", "Igor"]
+}
+//ES5
+person.printFriends = function() {
+   var self = this;
+   this._friends.forEach(function (friend) {
+      console.log(self._name + ' knows ' + friend)
+   });
+}
+
+//ES6
+person.printFriends = () => {
+    this._friends.forEach(f => console.log(`${this._name} knows ${f}`));
+}</code></pre>
 			</section>
 			<section>
 				<h2>Let</h2>
 				<div>Allows for block scoping</div>
 				<pre><code>
-function() {
-  if(x) {
-    var foo = 3;
-  }
-  var baz = 1;
-  //foo and baz in same scope due to hoisting
+if(true) {
+  var y = 1;
 }
+console.log(y); //1
+
 </code></pre>
 				<pre><code>
-function() {
-  if(x) {
-    let foo = 3; //only inside the conditional
-  }
-  var baz = 1;
-  //foo and baz NOT in same scope as foo is no longer hoisted
+if(true) {
+  let x = 1;
 }
+console.log(x); //Uncaught ReferenceError: x is not defined
+
 </code></pre>
 			</section>
 			<section>
-				<h2>Destructuring Object</h2>
+				<h2>Destructuring</h2>
 
 				<pre><code>let { first: f, last: l } = {first: 'Robert', last: 'Deniro'};
+console.log(f)  // Robert
+console.log(l)  // Deniro
 
-console.log(f)
-// Robert
+let [month, date, year] = [3, 14, 1977];
 
-console.log(l)
-// Deniro
-
-
-const unit = "kgs"
-let weight = {[unit]: '10'})
-
-console.log(weight)
-// {kgs: '10'}
-</code></pre>
-			</section>
-			<section>
-				<h2>Destructuring Array</h2>
-				<pre><code>var [month, date, year] = [3, 14, 1977];
-
-let x = 3;
-let y = 4;
+let x = 3, y = 4;
 [x, y] = [y, x];
 
 //ignore an index
-var [a, ,b] = [1,2,3];
-var doWork = function() {
+let [a, ,b] = [1,2,3];
+
+function doWork() {
     return [1, 3, 2];
 };
 
@@ -358,67 +324,84 @@ let [x, y, z] = doWork();
 </code></pre>
 			</section>
 			<section>
+				<h2>Computed properties</h2>
+				<pre><code>
+const unit = "kgs",
+   count = 10;
+
+let weight = {
+   [unit]: 50,
+   ['prop' + count]: count
+};
+
+//Output
+{
+   'kgs': 50,
+   'prop10': 10
+}
+
+</code></pre>
+			</section>
+			<section>
 				<h2>Default, Rest, Spread</h2>
-				<h3>Default Params</h3>
-				<pre><code>let f =(x, y=12, z=y) => {
+				<h3>Default Parameters</h3>
+				<pre><code>let f = (x, y=12, z=y) => {
   return x + y;
 }
 
 f(3) == 15;
 
 let [x=3, y] = []; // x = 3; y = undefined
-
 </code></pre>
 			</section>
 			<section>
-				<h2>Rest</h2>
+				<h2>Default, Rest, Spread</h2>
+				<h3>Rest Parameters</h3>
 				<ul>
-					<li>arguments object no real array</li>
-					<li>rest parameters are arrays meaning can use map,filter,reduce,etc</li>
-					<li>rest parameters are the params that haven't been named</li>
+					<li>Can be used to aggregate remaining arguments of a function into a single parameter</li>
+					<li>Are available as an array</li>
 				</ul>
 				<pre><code>function multiply(multiplier, ...theArgs) {
   return theArgs.map(function (element) {
     return multiplier * element;
   });
 }
+
+multiply(2, 3, 4, 5); //[6, 8, 10]
 </code></pre>
 			</section>
 			<section>
-				<h2>Spread</h2>
-				<div>Expand array params like Func.apply</div>
-				<pre><code>function total(x,y,z) {
-  return x + y + z;
-}
+				<h2>Default, Rest, Spread</h2>
+				<h3>Spread Parameters</h3>
+				<div>Spreading of elements of an iterable collection (like an array or even a string)</div>
+				<pre><code>const params = [ "hello", true, 7 ]
+const other = [ 1, 2, ...params ] // [ 1, 2, "hello", true, 7 ]
 
-total(1, 2, 3);
-
-//before
-total.apply(null, [1,2,3]);
-//now
-total(...[1,2,3]);
-
-let [x,...y] = 'abc'; // x='a'; y=['b', 'c'];
-
+const str = "foo";
+const chars = [ ...str ] // [ "f", "o", "o" ]
 </code></pre>
 			</section>
 			<section>
 				<h2>Classes</h2>
 				<ul>
-					<li>just some syntactic sugar for prototype</li>
-					<li>we will have super and constructor</li>
+					<li>More intuitive, OOP-style and boilerplate-free classes.</li>
+					<li>Has access to super class</li>
 				</ul>
-				<pre><code style="word-wrap: break-word;">class TodoModel {
+				<pre><code style="word-wrap: break-word;">//ES5
+var TodoModel = function (storage) {
+    this.storage = storage;
+}
+TodoModel.prototype.create(title) {
+    return this.storage.save({title, completed: false});
+}
+//ES6
+class TodoModel {
     constructor(storage) {
         this.storage = storage;
     }
 
-    create(title='') {
+    create(title) {
         return this.storage.save({title, completed: false});
-    }
-
-    ['h'+'ello' + 'world']() { //dynamic class properties
-        return 'Hello World';
     }
 };
 </code></pre>
@@ -438,37 +421,20 @@ let [x,...y] = 'abc'; // x='a'; y=['b', 'c'];
 			</section>
 			<section>
 				<h2>Modules</h2>
-				<pre><code>
-import payment from "Payment";
-// imports 'payment' as an exported value from "Payment" module.
-
-import { pay } from "Payment";
-// imports 'pay' from "Payment" module. 'pay' can be anything exported from within the "Payment" module
-
-import {member as alias } from "module-name";
-
-import { member1 , member2 } from "module-name";
-
-export const { myFunction };
-// exports an object containing property as 'myFunction'
-
-export const foo = Math.sqrt(2);
-// exports a constant with name 'foo' holding value '1.414'
-
-export default function() { console.log('default module method'); }
-// exports a function
-
+				<span>Exports</span>
+				<pre><code>export default expression;
+export let name1 = …, name2 = …, …, nameN; // also var, const
+export { variable1 as name1, variable2 as name2, …, nameN };
 </code></pre>
 			</section>
 			<section>
-				<h2>Named and default exports</h2>
-				<span>Default is really just another named export</span>
-				<pre><code>
-
-import defaultExport, { specificExport } from 'module';
-
-import _, { each } from 'lodash';
-
+				<h2>Modules</h2>
+				<span>Imports</span>
+				<pre><code>import defaultMember from "module-name";
+import * as name from "module-name";
+import { member1 , member2 } from "module-name";
+import { member as alias } from "module-name";
+import defaultMember, { member } from "module-name";
 </code></pre>
 			</section>
 			<section>
@@ -476,18 +442,19 @@ import _, { each } from 'lodash';
 				<ul>
 					<li>Syntactic sugar for conventional string interpolation</li>
 				</ul>
-				<pre><code style="word-wrap: break-word;">
-const name = "Robert Deniro"
+				<pre><code style="word-wrap: break-word;">const name = "Robert Deniro"
 
 // Before
 console.log("My name is " + name + "!")
 
 // After
 console.log(`My name is ${name}!`)
-
 </code></pre>
-				<a href="https://codepen.io/swapneeldesai/pen/jVxKYP?editors=0010" target="_blank">CodePen link</a>
 			</section>
+		<section>
+			<h2>Lets try out these ES6 features in our very own T.D.D fashion!</h2>
+			<a href="https://codepen.io/swapneeldesai/pen/jVxKYP?editors=0010" target="_blank">CodePen link</a>
+		</section>
 		</section>
 		<section data-transition="fade">
 			<h2>Agenda</h2>
@@ -503,54 +470,69 @@ console.log(`My name is ${name}!`)
 		</section>
 		<section>
 			<section>
-				<h2>Evolution of <strong>JS</strong> Frameworks</h2>
+				<h2>Evolution of Templating/View Frameworks</h2>
 
 			</section>
 			<section>
 				<h2>Vanilla JS</h2>
 				<p>In the beginning, there was just JavaScript and almost everyone was afraid to use it because of the
 					inconsistent DOM APIs across different browsers which resulted in lots of bugs.</p>
+				<pre class="fragment fade-in"><code>
+var name = 'Kim Jong-Un';
+document.getElementByTagName('body')[0].innerHTML = '<p>Hi! ' + name + '</p>';
+//Hi! Kim Jong-Un
+				</code></pre>
 			</section>
 			<section>
 				<h2>Jquery</h2>
 				<p>DOM manipulation and AJAX calls became less risky by abstracting away the differences into one consistent
 					API</p>
+				<pre class="fragment fade-in"><code>
+var name = 'Kim Jong-Un';
+$('body').html('<p>Hi! ' + name + '</p>');
+//Hi! Kim Jong-Un
+				</code></pre>
 			</section>
 			<section>
-				<p>1<sup>st</sup> Generation</p>
-				<br>
-				<br>
-				<h2>Backbone JS</h2>
-				<p>Backbone arrived and provided organization to that messy jQuery code</p>
-				<ul>
-					<li>Spine - clone of backbone</li>
-					<li>JavaScriptMVC - clone of backbone</li>
-					<li>Knockout</li>
-				</ul>
+				<h2>Handlebars/Moustache Templating</h2>
+				<p>Poor man's templating engine</p>
+				<pre class="fragment fade-in"><code><script id="entry-template" type="text/x-handlebars-template">
+   <div class="entry">
+     <h1>{{title}}</h1>
+     <div class="body">
+       {{{body}}}
+      </div>
+   </div>
+</script></code></pre>
+				<pre class="fragment fade-in"><code>var source   = $("#entry-template").html();
+var template = Handlebars.compile(source);</code></pre>
+				<pre class="fragment fade-in"><code>var context = {title: "My New Post", body: "This is my first post!"};
+var html    = template(context);
+</code></pre>
 			</section>
 			<section>
-				<p>2<sup>nd</sup> Generation</p>
+				<p>And then came...</p>
 				<br>
 				<br>
+				<div class="fragment fade-in">
 				<h2>Angular JS</h2>
 				<p>AngularJS emerged with all the needed framework pieces in one box: data binding, routing, templating,
 					persistence as well as a compelling testing story and a more declarative syntax.</p>
+				</div>
 			</section>
 			<section>
-				<p>2<sup>nd</sup> Generation</p>
-				<br>
-				<h2>Ember JS</h2>
-				<p> Ember was also built with similar features to AngularJS but a stronger router and more emphasis on URLs and
-					not breaking the back button.</p>
-				<ul>
-					<li>Can Js - slimmed down version of JavaScriptMVC with data binding support</li>
-					<li>Durandal - Merged with Angular</li>
-					<li>Meteor JS</li>
-				</ul>
+				<h2>Angular JS</h2>
+				<pre><code><div ng-app="">
+
+<p>Input something in the input box:</p>
+<p>Name : <input type="text" ng-model="name" placeholder="Enter name here"></p>
+<h1>Hello {{name}}</h1>
+
+</div></code></pre>
 			</section>
 			<section>
-				<p>3<sup>rd</sup> Generation</p>
-				<ul>
+				<p>But we did not stop here!</p>
+				<ul class="fragment fade-in">
 					<li>React JS</li>
 					<li>Vue JS</li>
 					<li>Polymer JS</li>
@@ -587,17 +569,6 @@ console.log(`My name is ${name}!`)
 		</section>
 		<section>
 			<section>
-				<h2>Mount Component</h2>
-				<pre>
-                <code>import React from 'react'
-import ReactDOM from 'react-dom'
-import app from './components/App';
-
-ReactDOM.render(<App></App>, document.getElementById('root'));
-</code></pre>
-				<a href="http://codepen.io/krunalp/pen/pNGLWO?editors=1000" target="_blank">Go to codepen</a>
-			</section>
-			<section>
 				<h2>JSX</h2>
 				<span>XML like syntax</span>
 				<ul>
@@ -609,54 +580,71 @@ ReactDOM.render(<App></App>, document.getElementById('root'));
 			</section>
 		</section>
 		<section>
-			<h2>React vs React DOM</h2>
-			<ul>
-				<li>React and ReactDOM were only recently split into two different libraries</li>
-				<li>ReactDOM is the glue between React and the DOM</li>
-				<li>you will only use it for one single thing: mounting with ReactDOM.render()</li>
-				<li>ReactDOM.findDOMNode() which you can use to gain direct access to a DOM element.</li>
-				<li>If your app is "isomorphic", ReactDOM.renderToString() in your back-end code.</li>
-				<li>You use React to define and create your elements, for lifecycle hooks, etc</li>
-			</ul>
+			<section>
+				<h2>Lets create a basic component</h2>
+				<div class="fragment fade-in">
+					<pre><code>class Welcome extends React.Component {
+  render() {
+    return <h1>Hello!</h1>;
+  }
+}
+					  </code></pre>
+				</div>
+				<div class="fragment fade-in">
+					<pre><code>< Welcome /></code></pre>
+				</div>
+			</section>
+			<section>
+				<h2>How to use this Component?</h2>
+				<pre><code>import React from 'react'
+import ReactDOM from 'react-dom'
+import Welcome from './components/Welcome';
+
+ReactDOM.render(< Welcome />, document.getElementById('root'));
+</code></pre>
+				<!--<a href="http://codepen.io/krunalp/pen/pNGLWO?editors=1000" target="_blank">Go to codepen</a>-->
+			</section>
+			<section>
+				<h2>How will that look?</h2>
+				<div class="fragment fade-in">
+					<h4>Like this!</h4>
+					<h1>Hello!</h1>
+				</div>
+			</section>
 		</section>
 		<section>
 			<section>
 				<h2>What are PROPS?</h2>
 			</section>
 			<section>
-				<h2>Where is the code?</h2>
+				<h2>How to supply props?</h2>
 				<div class="fragment fade-in">
-					<h4>supply props</h4>
-					<pre>
-                        <code>
+					<pre><code>
   < Welcome name="Sara" />
-                        </code>
-                      </pre>
+                        </code></pre>
 				</div>
 				<div class="fragment fade-in">
 					<h4>access props</h4>
-					<pre>
-                      <code>
+					<pre><code>
 class Welcome extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <h1>Hello, {this.props.name}!</h1>;
   }
 }
-                      </code>
-                    </pre>
+                      </code></pre>
 				</div>
 			</section>
 			<section>
 				<h2>How will that look?</h2>
 				<div class="fragment fade-in">
 					<h4>Like this!</h4>
-					<h1>Hello, Sara</h1>
+					<h1>Hello, Sara!</h1>
 				</div>
 			</section>
 			<section>
 				<h2>Want to make something a little more complicated?</h2>
 				<div class="fragment fade-in">
-					<h4>Try making it on your own. Here's a <a href="http://codepen.io/wolverine602/pen/MbaEwx">CodePen link</a>
+					<h4>Try making it on your own. Here's a <a href="http://codepen.io/wolverine602/pen/MbaEwx" target="_blank">CodePen link</a>
 						for your reference</h4>
 				</div>
 				<div class="fragment fade-in">

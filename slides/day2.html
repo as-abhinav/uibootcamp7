@@ -41,37 +41,33 @@
                 </section>
                 <section>
                   <h2>Default Props</h2>
-                  <pre>
-                    <code>class CustomButton extends React.Component {
+                  <pre><code>class CustomButton extends React.Component {
 
 };
 
 CustomButton.defaultProps = {
   color: 'blue'
 };
-                    </code>
-                  </pre>
+                    </code></pre>
                   <a href="http://codepen.io/krunalp/pen/pNGLWO?editors=1011" target="_blank">Code Pen</a>
                 </section>
                 <section>
                   <h2>Proptypes</h2>
-                  <pre>
-                    <code>class CustomButton extends React.Component {
+                  <pre><code>class CustomButton extends React.Component {
 
 };
 
 CustomButton.propTypes = {
   color: React.PropTypes.string
 };
-                    </code>
-                  </pre>
+                    </code></pre>
                   <a href="https://facebook.github.io/react/docs/react-api.html#react.proptypes" target="_blank">Docs</a>
                 </section>
                 <section>
                   <section>
                     <h2>The Component Lifecycle</h2>
-                    <p> Methods prefixed with <strong>will</strong> are called right <strong>before</strong> something happens</p>
-                    <p> Methods prefixed with <strong>did</strong> are called right <strong>after</strong> something happens.</p>
+                    <p class="fragment fade-in"> Methods prefixed with <strong>will</strong> are called right <strong>before</strong> something happens</p>
+                    <p class="fragment fade-in"> Methods prefixed with <strong>did</strong> are called right <strong>after</strong> something happens.</p>
                   </section>
                   <section>
                     <h2>Mounting</h2>
@@ -85,7 +81,7 @@ CustomButton.propTypes = {
                     <br>
                     <br>
                     <div>
-                      <a href="http://codepen.io/krunalp/pen/yVwaYr?editors=0010" target="_blank">Code Pen Link</a>
+                      <a href="https://codepen.io/kunalkindra/pen/yzVvzj?editors=1010" target="_blank">Code Pen Link</a>
                     </div>
                   </section>
                   <section>
@@ -100,7 +96,6 @@ CustomButton.propTypes = {
                     </ul>
                     <br>
                     <br>
-                    <a href="http://codepen.io/krunalp/pen/mOorBx?editors=0010" target="_blank">Code Pen Link</a>
                   </section>
                   <section>
                     <h2>Unmounting</h2>
@@ -112,40 +107,38 @@ CustomButton.propTypes = {
                 </section>
                 <section>
                   <section data-transition="fade">
-                      <img src="./images/states_pic.jpg" alt="passing props" height="500" width="400" />
-                      <div class="fragment fade-in">
-                        <h4>If I can't update my props, how the <b>#$^%@!</b> do I update myself?</h4>
+                      <div>
+                          <h3>Hi! I am a component. How do I update myself?</h3>
                       </div>
+                      <div class="fragment fade-in">
+                          <h4>I have been told that I cannot update my 'props'. They belong to my parent.</h4>
+                          <img src="./images/states_pic.jpg" alt="passing props" height="400"/>
+                          <h4>If I can't update my props, how the <b>#$^%@!</b> do I update myself?</h4></div>
+
                   </section>
                   <section data-transition="fade">
                     <h2>ENTER<span  class = "fragment">.</span><span  class = "fragment">.</span><span  class = "fragment">.</span><span  class = "fragment">.</span><span  class = "fragment">.</span><span class = "fragment fade-in"> STATES!</span></h2>
                     <div class = "fragment fade-in">
                       <h3>how do I use states?</h3>
-                      <pre>
-                        <code>
-<p>The current temperature is: {this.state.temperature}</p>
-                        </code>
-                      </pre>
+                      <pre><code>
+    <p>The current temperature is: {this.state.temperature}</p>
+                      </code></pre>
                     </div>
                   </section>
                   <section>
                     <h3>how do I change the state?</h3>
                     <div class = "fragment fade-in">
-<pre>
-  <code>
+<pre><code>
     this.state.temperature = 30;
-  </code>
-</pre>
+  </code></pre>
                     </div>
                     <div class = "fragment fade-in">
                       <img src="./images/state_punishment.gif" alt="state punishment" height="200" width="400" />
                     </div>
                     <div class = "fragment fade-in">
-<pre>
-  <code>
+<pre><code>
     this.setState({temperature: 30});
-  </code>
-</pre>
+  </code></pre>
                     </div>
                   </section>
                   <section>
@@ -170,7 +163,7 @@ CustomButton.propTypes = {
                   </section>
                 </section>
                 <section>
-                    <img src="./images/day2_presentation_complete.jpg" alt="passing props" height="650" width="500" />
+                    <img src="./images/questions.jpg" alt="passing props" height="650" />
                 </section>
             </div>
         </div>
