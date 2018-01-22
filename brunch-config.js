@@ -9,7 +9,7 @@ exports.config = {
 		stylesheets: {joinTo: 'stylesheets/style.css'}
 	},
 	plugins: {
-		babel: {presets: ['es2015', 'react']}
+		babel: {presets: ['env', 'react']}
 	},
 	server : {
 		port: 5555
